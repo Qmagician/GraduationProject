@@ -8,7 +8,8 @@ var pool = mysql.createPool({
   user: mysqlConf.mysql.user,
   password: mysqlConf.mysql.password,
   database: mysqlConf.mysql.database,
-  port: mysqlConf.mysql.port
+  port: mysqlConf.mysql.port,
+  multipleStatements:true    // 多语句查询
 })
 
 // 向前台返回JSON方法的简单封装
@@ -24,9 +25,34 @@ var jsonWrite = function (res, data) {
 };
 
 module.exports = {
-  getBlogAll(req, res, next) {
+  login(req, res, next){
+    let params = req.query;
+    let username = params.username;
+    let password = params.password;
     pool.getConnection((err, connection) => {
-      connection.query(sqlMap.blog.queryAll, (err, result) => {
+      connection.query(sqlMap.pps.queryByUserName,[username],(err, result) => {
+        if (result.length === 0){
+          res.json({
+            status: 'FAIL',
+            message: '该用户不存在'
+          });
+        }else {
+          if (result[0].password !== password){
+            res.json({
+              status: 'FAIL',
+              message: '密码错误'
+            });
+          }else{
+            delete result[0].password;
+            res.json(result);
+          }
+        }
+      })
+    });
+  },
+  getPpsAll(req, res, next) {
+    pool.getConnection((err, connection) => {
+      connection.query(sqlMap.pps.queryAll,(err, result) => {
         jsonWrite(res, result);
         connection.release();
       })

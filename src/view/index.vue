@@ -2,13 +2,14 @@
   <div>
     <div class="login-wrap" v-show="showLogin">
       <h3>{{msg}}</h3>
+      <!-- <p v-show="showTishi">{{tishi}}</p> -->
+      <el-col :span="24" style="margin-bottom: 10px;">
+        <el-input style="width:250px;" placeholder="请输入用户名" v-model="username" clearable :maxlength="32"></el-input>
+      </el-col>
+      <el-col :span="24" style="margin-bottom: 10px;">
+        <el-input type="password" style="width:250px;" placeholder="请输入密码" v-model="password" clearable :maxlength="16"></el-input>
+      </el-col>
       <p v-show="showTishi">{{tishi}}</p>
-      <el-col :span="24" style="margin-bottom: 10px;">
-        <el-input style="width:250px;" placeholder="请输入用户名" v-model="username" clearable></el-input>
-      </el-col>
-      <el-col :span="24" style="margin-bottom: 10px;">
-        <el-input type="password" style="width:250px;" placeholder="请输入密码" v-model="password" clearable></el-input>
-      </el-col>
       <el-col :span="24">
         <el-button style="width:250px;" type="primary" v-on:click="login">登录</el-button>
       </el-col>
@@ -18,12 +19,12 @@
 
     <div class="register-wrap" v-show="showRegister">
       <h3>{{msg}}</h3>
-      <p v-show="showTishi">{{tishi}}</p>
+      <!-- <p v-show="showTishi">{{tishi}}</p> -->
       <el-col :span="24" style="margin-bottom: 10px;">
-        <el-input style="width:250px;" placeholder="请输入用户名" v-model="newUsername" clearable></el-input>
+        <el-input style="width:250px;" placeholder="请输入用户名" v-model="newUsername" :maxlength="32" clearable></el-input>
       </el-col>
       <el-col :span="24" style="margin-bottom: 10px;">
-        <el-input type="password" style="width:250px;" placeholder="请输入密码" v-model="newPassword" clearable></el-input>
+        <el-input type="password" style="width:250px;" placeholder="请输入密码" v-model="newPassword" :maxlength="16" clearable></el-input>
       </el-col>
       <el-col :span="24">
         <el-button style="width:250px;" type="primary" v-on:click="register">注册</el-button>
@@ -35,7 +36,8 @@
 
 <script>
 import {setCookie,getCookie} from '../assets/js/cookie.js'
-import qs from 'qs'
+import { Toast } from 'mint-ui'
+import 'mint-ui/lib/style.css'
 export default {
   name: 'login',
   data () {
@@ -54,25 +56,36 @@ export default {
   methods:{
     login(){
       let THIS = this;
-      this.$axios.get('/api/blog/getBlogAll',{params:{'id':'100'}}).then((res)=>{
-        console.log(res);
+      if(THIS.username == "" || THIS.password == ""){
+        THIS.tishi = "请输入用户名或密码";
+        THIS.showTishi = true;
+      }else{
+        this.$axios.get('/api/pps/login',
+          {
+            params:{
+              'username':THIS.username,
+              'password':THIS.password
+            }
+          }).then((res)=>{
+          if (res.data.status === 'FAIL'){
+            THIS.tishi = res.data.message;
+            THIS.showTishi = true;
+          }else{
+            Toast('登录成功');
+            setTimeout(function(){
+              THIS.$router.push('/home');
+            }.bind(THIS),1000);
+          }
+        
+
       }).catch((err)=>{
         throw err;
-      })
-     /* if(THIS.username == "" || THIS.password == ""){
-        alert("请输入用户名或密码");
-      }else{
-        THIS.tishi = "登录成功";
-        THIS.showTishi = true;
-        setCookie('username',this.username,1000*60);
-        setTimeout(function(){
-          THIS.$router.push('/home');
-        }.bind(THIS),1000);
-      }*/
+      });
+      }
     },
     register(){
       let THIS = this;
-      if(THIS.username == "" || THIS.password == ""){
+      if(THIS.newUsername == "" || THIS.newPassword == ""){
         alert("请输入用户名或密码");
       }else{
         

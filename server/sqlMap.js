@@ -1,10 +1,12 @@
 var sqlMap = {
-  blog: {
-    insert:"INSERT INTO test(id,name) VALUES(100,'xxx')",
-    update:'update test set name=? where id=?',
-    delete: 'delete from test where id=?',
-    queryById: 'select * from test where id=?',
-    queryAll: 'select * from test'
+  pps: {
+    insert:"INSERT INTO user(id,name) VALUES(100,'xxx')",
+    update:'update user set name=? where id=?',
+    delete: 'delete from user where id=?',
+    queryById: 'select * from user where id=?',
+    queryByUserName: 'select * from user where username=?',
+    queryByPassword: 'select * from user where password=?',
+    queryAll: 'select * from user'
   },
 }
 
