@@ -50,6 +50,32 @@ module.exports = {
       })
     });
   },
+  register(req, res, next){
+    let params = req.query;
+    let username = params.username;
+    let password = params.password;
+    let phone = params.phone;
+    pool.getConnection((err, connection) => {
+      connection.query(sqlMap.pps.insert,[username,password,phone],(err, result) => {
+        console.log(err);
+        if (err){
+          let msg = '服务器错误,请稍后再试!';
+          if (err.errno == '1062'){
+            msg = '该用户已经存在！'
+          }
+          res.json({
+            status: 'FAIL',
+            message: msg
+          });
+        }else{
+          res.json({
+            status: 'SUCCESS',
+            message: '注册成功,尝试登陆!'
+          });
+        }
+      })
+    });
+  },
   getPpsAll(req, res, next) {
     pool.getConnection((err, connection) => {
       connection.query(sqlMap.pps.queryAll,(err, result) => {

@@ -26,6 +26,10 @@
       <el-col :span="24" style="margin-bottom: 10px;">
         <el-input type="password" style="width:250px;" placeholder="请输入密码" v-model="newPassword" :maxlength="16" clearable></el-input>
       </el-col>
+      <el-col :span="24" style="margin-bottom: 10px;">
+        <el-input style="width:250px;" placeholder="请输入电话号码" v-model="phone" :maxlength="11" clearable></el-input>
+      </el-col>
+      <p v-show="showTishi">{{tishi}}</p>
       <el-col :span="24">
         <el-button style="width:250px;" type="primary" v-on:click="register">注册</el-button>
       </el-col>
@@ -50,7 +54,8 @@ export default {
       username: '',
       password: '',
       newUsername: '',
-      newPassword: ''
+      newPassword: '',
+      phone: ''
     }
   },
   methods:{
@@ -71,13 +76,12 @@ export default {
             THIS.tishi = res.data.message;
             THIS.showTishi = true;
           }else{
-            Toast('登录成功');
+            Toast('登录成功!');
             setTimeout(function(){
               THIS.$router.push('/home');
             }.bind(THIS),1000);
           }
         
-
       }).catch((err)=>{
         throw err;
       });
@@ -85,10 +89,31 @@ export default {
     },
     register(){
       let THIS = this;
-      if(THIS.newUsername == "" || THIS.newPassword == ""){
-        alert("请输入用户名或密码");
+      if(THIS.newUsername == "" || THIS.newPassword == "" || THIS.phone == ""){
+        THIS.tishi = "请输入完整信息";
+        THIS.showTishi = true;
       }else{
         
+        this.$axios.get('/api/pps/register',
+          {
+            params:{
+              'username':THIS.newUsername,
+              'password':THIS.newPassword,
+              'phone': THIS.phone,
+            }
+          }).then((res)=>{
+          if (res.data.status === 'FAIL'){
+            THIS.tishi = res.data.message;
+            THIS.showTishi = true;
+            //Toast(res.data.message);
+          }else{
+            Toast(res.data.message);
+            THIS.ToLogin();
+          }
+        
+        }).catch((err)=>{
+          throw err;
+        });
       }
     },
     ToRegister(){
