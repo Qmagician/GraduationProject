@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div style="margin-top: 60px;">
     <div class="login-wrap" v-show="showLogin">
+      <img src="../assets/login1.jpg">
       <h3>{{msg}}</h3>
       <!-- <p v-show="showTishi">{{tishi}}</p> -->
       <el-col :span="24" style="margin-bottom: 10px;">
@@ -41,7 +42,7 @@
 <script>
 import {setCookie,getCookie} from '../assets/js/cookie.js'
 import { Toast } from 'mint-ui'
-import 'mint-ui/lib/style.css'
+
 export default {
   name: 'login',
   data () {
