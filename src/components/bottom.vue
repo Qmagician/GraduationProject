@@ -6,7 +6,7 @@
       </mt-tab-item>
       <mt-tab-item id="find">
         <img slot="icon" src="../assets/find.png">
-        找车位
+        预约车位
       </mt-tab-item>
       <mt-tab-item id="mine">
         <img slot="icon" src="../assets/mine.png">
