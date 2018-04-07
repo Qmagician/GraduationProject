@@ -46,12 +46,12 @@
         </a>
       </li>
     </ul>
-  <v-bottom></v-bottom>
+    <v-bottom></v-bottom>
   </div>
 </template>
 
 <script>
-import Bottom from '@/components/bottom'
+import Buttom from '@/components/bottom'
 export default {
   name: 'HelloWorld',
   data () {
@@ -60,7 +60,7 @@ export default {
     }
   },
   components:{
-    'v-bottom':Bottom,
+    'v-bottom':Buttom,
   },
 }
 </script>

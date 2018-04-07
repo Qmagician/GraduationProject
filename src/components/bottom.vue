@@ -1,5 +1,5 @@
 <template>
-  <mt-tabbar v-model="selected">
+  <mt-tabbar fixed v-model="selected">
       <mt-tab-item id="home_page">
         <img slot="icon" src="../assets/home.png">
         首页
@@ -28,7 +28,7 @@ export default {
         switch(val){
           case 'home_page':sessionStorage.setItem("page","home_page");this.$router.push('/home');break;
           case 'find':sessionStorage.setItem("page","find");this.$router.push('/find');break;
-          case 'mine':sessionStorage.setItem("page","mine");this.$router.push('/home');break;
+          case 'mine':sessionStorage.setItem("page","mine");this.$router.push('/mine');break;
           default:;
         }
     }
