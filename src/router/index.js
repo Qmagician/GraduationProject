@@ -4,6 +4,7 @@ import Login from '@/view'
 import Home from '@/view/home'
 import Find from '@/view/Find/find'
 import Mine from '@/view/Mine/mine'
+import addPark from '@/view/Mine/addPark'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/mine',
       name: 'mine',
       component: Mine
+    },
+    {
+      path: '/addPark',
+      name: 'addPark',
+      component: addPark
     },
   ]
 })

@@ -77,6 +77,7 @@ export default {
             THIS.tishi = res.data.message;
             THIS.showTishi = true;
           }else{
+            sessionStorage.setItem('userId', res.data[0].id);
             Toast('登录成功!');
             setTimeout(function(){
               THIS.$router.push('/home');

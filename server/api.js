@@ -25,6 +25,7 @@ var jsonWrite = function (res, data) {
 };
 
 module.exports = {
+  // 登录
   login(req, res, next){
     let params = req.query;
     let username = params.username;
@@ -50,6 +51,7 @@ module.exports = {
       })
     });
   },
+  // 注册
   register(req, res, next){
     let params = req.query;
     let username = params.username;
@@ -57,7 +59,6 @@ module.exports = {
     let phone = params.phone;
     pool.getConnection((err, connection) => {
       connection.query(sqlMap.pps.insert,[username,password,phone],(err, result) => {
-        console.log(err);
         if (err){
           let msg = '服务器错误,请稍后再试!';
           if (err.errno == '1062'){
@@ -76,6 +77,7 @@ module.exports = {
       })
     });
   },
+  // 获取所有用户
   getPpsAll(req, res, next) {
     pool.getConnection((err, connection) => {
       connection.query(sqlMap.pps.queryAll,(err, result) => {
@@ -84,12 +86,68 @@ module.exports = {
       })
     })
   },
-  getTagAll(req, res, next) {
+  // 获取预约车位列表
+  getImagesList(req, res, next) {
+    let userid = req.query.userid;
     pool.getConnection((err, connection) => {
-      connection.query(sqlMap.tag.queryAll, (err, result) => {
+      connection.query(sqlMap.pps.queryAllPark,[userid],(err, result) => {
         jsonWrite(res, result);
         connection.release();
       })
     })
+  },
+  // 获取当前用户车位信息
+  getUserPark(req, res, next) {
+    let userid = req.query.userid;
+    pool.getConnection((err, connection) => {
+      connection.query(sqlMap.pps.queryUserPark,[userid],(err, result) => {
+        jsonWrite(res, result);
+        connection.release();
+      })
+    })
+  },
+  // 搜索车位信息
+  searchUserPark(req, res, next) {
+    let parkcity = req.query.parkcity;
+    let userid = req.query.userid;
+    let sql = "select * from parkInfo where parkcity like '%"+parkcity+"%' and userid="+userid;
+    pool.getConnection((err, connection) => {
+      connection.query(sql,(err, result) => {
+        jsonWrite(res, result);
+        connection.release();
+      })
+    })
+  },
+  // 新增车位信息
+  saveParkInfo(req, res, next){
+    let params = req.query;
+    let userid = params.userid;
+    let parkcity = params.areaString;
+    let parkstreet = params.streetString;
+    let parkdetails = params.detailAddr;
+    let starttime = params.startTime;
+    let endtime = params.endTime;
+    let price = params.price;
+    let imageurl = params.imageUrl;
+    let status = params.status;
+    pool.getConnection((err, connection) => {
+      connection.query(sqlMap.pps.insertPark,[userid,parkcity,parkstreet,parkdetails,starttime,endtime,price,imageurl,status],(err, result) => {
+        if (err){
+          let msg = '服务器错误,请稍后再试!';
+          if (err.errno == '1292'){
+            msg = '请正确填写时间信息'
+          }
+          res.json({
+            status: 'FAIL',
+            message: msg
+          });
+        }else{
+          res.json({
+            status: 'SUCCESS',
+            message: '添加成功!'
+          });
+        }
+      })
+    });
   },
 }
