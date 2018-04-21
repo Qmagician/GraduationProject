@@ -1,0 +1,364 @@
+<template>
+<<<<<<< HEAD
+<<<<<<< HEAD
+  <div class="mine-style">
+    <mt-header fixed title="个人车位租赁系统"></mt-header>
+    <div style="margin-top: 40px; width: 100%;height: 40px;">
+      <el-row>
+        <el-button size="small" type="primary" style="margin: 10px 10px; float: left;" @click="addPark">新增</el-button>
+        <el-input size="small" style="margin: 10px 0px;width: 75%;" placeholder="市区" v-model="condition" clearable>
+          <el-button size="small"  slot="append" @click="search">搜索</el-button>
+        </el-input>
+      </el-row>
+    </div>
+
+    <div class="clearfix" style="margin-bottom: 55px;"> 
+
+      <el-card class="body-card" :class="cardHeader(item.status)" v-for="(item,index) in parkInfo" :key="index">
+        <div slot="header" style="height: 20px;">
+          <span style="float: left;color:#f0f0f0;">{{item.parkcity}}</span>
+        </div>
+        <div class="text item">
+          <el-col :span="10" >
+            <img src="../../../server/images/1.jpg" height="100px" width="100px" />
+          </el-col>
+          <el-col :span="14">
+            <el-row>
+              <el-col :span="10" class="item-title">街道：</el-col>
+              <el-col :span="14" class="item-text">{{item.parkstreet}}</el-col>
+            </el-row>
+            <hr />
+            <el-row>
+              <el-col :span="10" class="item-title">状态：</el-col>
+              <el-col :span="7" class="item-status" style="background-color: #989393;" v-if="item.status=='0'">
+                <div>{{changeStatus(item.status)}}</div>
+              </el-col>
+              <el-col :span="7" class="item-status" style="background-color: #ff8331;" v-if="item.status=='1'">
+                <div>{{changeStatus(item.status)}}</div>
+              </el-col>
+              <el-col :span="7" class="item-status" style="background-color: #2CB381;" v-if="item.status=='2'">
+                <div>{{changeStatus(item.status)}}</div>
+              </el-col>
+            </el-row>
+            <hr />
+            <el-row>
+              <el-col :span="10" class="item-title">价格：</el-col>
+              <el-col :span="14" class="item-text">{{item.price}}元/小时</el-col>
+            </el-row>
+            <hr />
+          </el-col>
+        </div>
+        <el-col>
+          <el-row>
+            <el-col :span="10" class="item-title">开始时间：</el-col>
+            <el-col :span="14" class="item-text" >{{changeTime(item.starttime)}}</el-col>
+          </el-row>
+          <hr />
+          <el-row>
+            <el-col :span="10" class="item-title">结束时间：</el-col>
+            <el-col :span="14" class="item-text" >{{changeTime(item.endtime)}}</el-col>
+          </el-row>
+          <hr />
+        </el-col>
+        <div style="margin-top:10px;" v-if="item.status=='0'">
+          <el-button size="small" class="operate-btn" type="primary" @click="deleteInfo(item)">删除</el-button>
+          <el-button size="small" class="operate-btn" type="primary" @click="editInfo(item)">编辑</el-button>
+        </div>
+        <div style="margin-top:10px;" v-if="item.status=='1'">
+          <el-button size="small" class="operate-btn" type="primary" @click="reject(item)">拒绝</el-button>
+          <el-button size="small" class="operate-btn" type="primary" @click="agreement(item)">同意</el-button>
+        </div>
+        <div style="margin-top:10px;" v-if="item.status=='1' || item.status=='2'">
+          <el-button size="small" class="operate-btn" type="primary" @click="dialogShow(item)">预约者</el-button>
+        </div>
+      </el-card>
+
+    </div>
+
+    <el-dialog title="预约者信息" :visible.sync="dialogVisible" width="70%" >
+      <div>姓名：{{name}}</div>
+      <div>tel：{{phone}}</div>
+      <span slot="footer" class="dialog-footer">
+      <el-button size="small" @click="dialogVisible = false">取 消</el-button>
+      <el-button size="small" type="primary" @click="phoneCall">打电话</el-button>
+      </span>
+    </el-dialog>
+=======
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+  <div style="position: relative;">
+    <mt-header fixed title="个人车位租赁系统"></mt-header>
+    <div style="margin-top: 40px; height: 40px;">
+      <el-row>
+        <el-button size="small" type="primary" style="margin: 10px 10px; float: left;" @click="addPark">新增</el-button>
+        <el-button size="small" type="primary" style="margin: 10px 10px 10px 0px; float: right;" @click="search">搜索</el-button>
+        <el-input size="small" style="margin: 10px 0px;float: right;width: 50%;" placeholder="市区" v-model="condition" clearable></el-input>
+      </el-row>
+    </div>
+    <div style="margin-top: 20px;"> 
+    <ul class="mui-table-view mui-table-view-chevron">
+      <li class="mui-table-view-cell mui-media" v-for="(item, index) in parkInfo">
+        <a class="mui-navigate-right" href="javascript:void(0)" @click.stop="showDetails(item)">
+          <img class="mui-media-object mui-pull-left" src="../../../server/images/1.jpg">
+          <div class="mui-media-body">
+            <span style="text-align: left;">{{item.parkcity}}:{{item.parkstreet}}</span>
+            <p class='mui-ellipsis'>{{item.parkdetails}}</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+    </div>
+
+
+<<<<<<< HEAD
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+
+    <v-bottom></v-bottom>
+  </div>
+</template>
+
+<script>
+import Buttom from '@/components/bottom'
+import { Toast } from 'mint-ui'
+<<<<<<< HEAD
+<<<<<<< HEAD
+import { MessageBox } from 'mint-ui'
+import {getFullFormatDate} from '../../assets/js/common.js'
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+export default {
+  data () {
+    return {
+      parkInfo:[],
+<<<<<<< HEAD
+<<<<<<< HEAD
+      condition:'',
+      dialogVisible:false,
+      name:'',
+      phone:'',
+    }
+  },
+  methods:{
+    cardHeader(status){
+      if (status == 0){
+        return 'to-be-reserved ';
+      }else if (status == 1){
+        return 'to-be-confirmed';
+      }else {
+        return 'reserved';
+      }
+    },
+=======
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+      condition:''
+    }
+  },
+  methods:{
+<<<<<<< HEAD
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+    // 获取车位信息
+    getUserParkInfo(){
+      this.$axios.get('/api/pps/getUserPark',
+          {
+            params:{'userid':sessionStorage.getItem('userId')}
+          }).then((res)=>{
+          if (res.data.status === 'FAIL'){
+            Toast(res.data.message);
+          }else{
+            this.parkInfo = res.data;
+          }
+        
+        }).catch((err)=>{
+          throw err;
+        });
+
+    },
+<<<<<<< HEAD
+<<<<<<< HEAD
+    // 跳转到新增页面
+    addPark(){
+      this.$router.push('/addPark');
+    },
+    // 搜索
+    search(){
+      if (this.condition == ''){
+        this.getUserParkInfo();
+=======
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+    addPark(){
+      this.$router.push('/addPark');
+    },
+    search(){
+      if (this.condition == ''){
+        Toast('请先填写搜索条件！');
+<<<<<<< HEAD
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+        return;
+      }
+      this.$axios.get('/api/pps/searchUserPark',
+          {
+            params:{'parkcity':this.condition,'userid':sessionStorage.getItem('userId')}
+          }).then((res)=>{
+          if (res.data.status === 'FAIL'){
+            Toast(res.data.message);
+          }else{
+            if (res.data.length == 0){
+              Toast('没有搜索到匹配的结果！');
+            }
+            this.parkInfo = res.data;
+          }
+        
+        }).catch((err)=>{
+          throw err;
+        });
+<<<<<<< HEAD
+<<<<<<< HEAD
+    },
+    // 状态转换
+    changeStatus(value){
+      switch(value){
+        case 0: return '待预约';break;
+        case 1: return '待确认';break;
+        case 2: return '已预约';break;
+        default:;
+      }
+    },
+    // 时间转换
+    changeTime(time){
+      let tempTime = getFullFormatDate(new Date(time));
+      return tempTime;
+    },
+    // 删除
+    deleteInfo(item){
+      this.$axios.get('/api/pps/deleteParkInfo',
+      {
+        params:{'num':item.num}
+      }).then((res)=>{ 
+        Toast(res.data.message);
+      }).catch((err)=>{
+        throw err;
+      });
+      this.getUserParkInfo();
+    },
+    // 编辑
+    editInfo(item){
+      sessionStorage.setItem('parkInfoData',JSON.stringify(item));
+      this.$router.push('/addPark');
+    },
+    // 拒绝
+    reject(item){
+      this.$axios.get('/api/pps/rejectOrder',
+      {
+        params:{'num':item.num}
+      }).then((res)=>{ 
+        Toast(res.data.message);
+      }).catch((err)=>{
+        throw err;
+      });
+      this.getUserParkInfo();
+    },
+    // 同意
+    agreement(item){
+      this.$axios.get('/api/pps/agreeOrder',
+      {
+        params:{'num':item.num}
+      }).then((res)=>{
+        Toast(res.data.message);
+      }).catch((err)=>{
+        throw err;
+      });
+      this.getUserParkInfo();
+    },
+    // 预约者信息弹窗
+    dialogShow(item){
+      this.name = item.username;
+      this.phone = item.phone;
+      this.dialogVisible = true;
+    },
+    // 打电话
+    phoneCall(){
+      this.dialogVisible = false;
+      window.location.href = 'tel:'+this.phone;
+=======
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+      //this.getUserParkInfo({'condition':"parkcity like '%"+this.condition+"%'"});
+    },
+    showDetails(item){
+      console.log(item);
+<<<<<<< HEAD
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+    },
+  },
+  mounted() {
+    this.getUserParkInfo();
+  },
+  components:{
+    'v-bottom':Buttom,
+  },
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<<<<<<< HEAD
+<<<<<<< HEAD
+<style lang='stylus' scoped >
+.body-card {
+  width: 94%;
+  margin-left: 3%;
+  margin-top: 10px;
+  .item-title {
+    text-align: right;
+  }
+  .item-text {
+    text-align: left;
+  }
+  .item-status {
+    text-align: center;
+    border-radius: 3px;
+    div {
+      color:#f0f0f0;
+    }
+  }
+  hr {
+    border : 0.5px dashed gray;
+  }
+  .operate-btn {
+    float: right; 
+    margin:0px 0px 10px 5px;
+  }
+}
+.text {
+  font-size: 14px;
+}
+.clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+.item {
+  margin-bottom: 10px;
+}
+
+=======
+<style scoped src="../../assets/dist/css/mui.css">
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+<style scoped src="../../assets/dist/css/mui.css">
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+</style>
