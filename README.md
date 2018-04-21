@@ -9,10 +9,13 @@
 npm install
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 cnpm install element-ui vuex axios mysql express body-parser --save
 cnpm install mint-ui vue-amap --save
 cnpm install stylus  --save-dev
 cnpm install stylus-loader css-loader style-loader --save-dev
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======

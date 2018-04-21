@@ -14,7 +14,11 @@
     "body-parser": "^1.18.2",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "element-ui": "^2.3.4",
+=======
+    "element-ui": "^2.2.2",
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
     "element-ui": "^2.2.2",
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -43,7 +47,11 @@
     "copy-webpack-plugin": "^4.0.1",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "css-loader": "^0.28.11",
+=======
+    "css-loader": "^0.28.0",
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
     "css-loader": "^0.28.0",
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -66,9 +74,12 @@
     "shelljs": "^0.7.6",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "style-loader": "^0.20.3",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======

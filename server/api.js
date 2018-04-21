@@ -19,7 +19,11 @@ var jsonWrite = function (res, data) {
       code:'1',
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       message: '操作失败'
+=======
+      msg: '操作失败'
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
       msg: '操作失败'
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -58,7 +62,10 @@ module.exports = {
         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         connection.release();
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
@@ -91,7 +98,10 @@ module.exports = {
         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         connection.release();
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
@@ -134,7 +144,11 @@ module.exports = {
     let userid = req.query.userid;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     let sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where parkcity like '%"+parkcity+"%' and userid="+userid;
+=======
+    let sql = "select * from parkInfo where parkcity like '%"+parkcity+"%' and userid="+userid;
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
     let sql = "select * from parkInfo where parkcity like '%"+parkcity+"%' and userid="+userid;
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -148,6 +162,7 @@ module.exports = {
       })
     })
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   // 删除当前用户车位信息
@@ -218,6 +233,8 @@ module.exports = {
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
   // 新增车位信息
   saveParkInfo(req, res, next){
     let params = req.query;
@@ -249,7 +266,10 @@ module.exports = {
         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         connection.release();
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======

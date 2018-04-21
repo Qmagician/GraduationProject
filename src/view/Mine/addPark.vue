@@ -194,7 +194,11 @@ export default {
 </script>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <style lang='stylus' scoped>
+=======
+<style scoped>
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 <style scoped>
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af

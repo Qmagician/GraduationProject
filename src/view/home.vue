@@ -1,7 +1,11 @@
 <template>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <div class="home-style">
+=======
+  <div>
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
   <div>
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -76,7 +80,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <style lang='stylus' scoped>
+=======
+<style scoped>
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 <style scoped>
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af

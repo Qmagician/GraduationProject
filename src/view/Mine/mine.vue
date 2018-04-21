@@ -1,6 +1,7 @@
 <template>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <div class="mine-style">
     <mt-header fixed title="个人车位租赁系统"></mt-header>
     <div style="margin-top: 40px; width: 100%;height: 40px;">
@@ -86,6 +87,8 @@
 =======
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
   <div style="position: relative;">
     <mt-header fixed title="个人车位租赁系统"></mt-header>
     <div style="margin-top: 40px; height: 40px;">
@@ -111,6 +114,9 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -124,8 +130,11 @@ import Buttom from '@/components/bottom'
 import { Toast } from 'mint-ui'
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { MessageBox } from 'mint-ui'
 import {getFullFormatDate} from '../../assets/js/common.js'
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
@@ -134,6 +143,7 @@ export default {
   data () {
     return {
       parkInfo:[],
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       condition:'',
@@ -155,11 +165,16 @@ export default {
 =======
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
       condition:''
     }
   },
   methods:{
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -182,6 +197,7 @@ export default {
     },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     // 跳转到新增页面
     addPark(){
       this.$router.push('/addPark');
@@ -193,6 +209,8 @@ export default {
 =======
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
     addPark(){
       this.$router.push('/addPark');
     },
@@ -200,6 +218,9 @@ export default {
       if (this.condition == ''){
         Toast('请先填写搜索条件！');
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -221,6 +242,7 @@ export default {
         }).catch((err)=>{
           throw err;
         });
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     },
@@ -292,11 +314,16 @@ export default {
 =======
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
       //this.getUserParkInfo({'condition':"parkcity like '%"+this.condition+"%'"});
     },
     showDetails(item){
       console.log(item);
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+=======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
@@ -312,6 +339,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <style lang='stylus' scoped >
@@ -355,6 +383,9 @@ export default {
   margin-bottom: 10px;
 }
 
+=======
+<style scoped src="../../assets/dist/css/mui.css">
+>>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 =======
 <style scoped src="../../assets/dist/css/mui.css">
 >>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
