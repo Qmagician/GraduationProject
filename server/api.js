@@ -17,19 +17,7 @@ var jsonWrite = function (res, data) {
   if(typeof data === 'undefined') {
     res.json({
       code:'1',
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
       message: '操作失败'
-=======
-      msg: '操作失败'
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-      msg: '操作失败'
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-      msg: '操作失败'
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
     });
   } else {
     res.json(data);
@@ -60,16 +48,7 @@ module.exports = {
             res.json(result);
           }
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         connection.release();
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
       })
     });
   },
@@ -96,16 +75,7 @@ module.exports = {
             message: '注册成功,尝试登陆!'
           });
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         connection.release();
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
       })
     });
   },
@@ -142,19 +112,7 @@ module.exports = {
   searchUserPark(req, res, next) {
     let parkcity = req.query.parkcity;
     let userid = req.query.userid;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     let sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where parkcity like '%"+parkcity+"%' and userid="+userid;
-=======
-    let sql = "select * from parkInfo where parkcity like '%"+parkcity+"%' and userid="+userid;
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-    let sql = "select * from parkInfo where parkcity like '%"+parkcity+"%' and userid="+userid;
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-    let sql = "select * from parkInfo where parkcity like '%"+parkcity+"%' and userid="+userid;
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
     pool.getConnection((err, connection) => {
       connection.query(sql,(err, result) => {
         jsonWrite(res, result);
@@ -162,9 +120,6 @@ module.exports = {
       })
     })
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   // 删除当前用户车位信息
   deleteParkInfo(req, res, next) {
     let num = req.query.num;
@@ -229,12 +184,6 @@ module.exports = {
       })
     })
   },
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
   // 新增车位信息
   saveParkInfo(req, res, next){
     let params = req.query;
@@ -264,16 +213,7 @@ module.exports = {
             message: '添加成功!'
           });
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         connection.release();
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
       })
     });
   },

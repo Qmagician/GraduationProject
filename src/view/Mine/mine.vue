@@ -1,7 +1,4 @@
 <template>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   <div class="mine-style">
     <mt-header fixed title="个人车位租赁系统"></mt-header>
     <div style="margin-top: 40px; width: 100%;height: 40px;">
@@ -84,42 +81,6 @@
       <el-button size="small" type="primary" @click="phoneCall">打电话</el-button>
       </span>
     </el-dialog>
-=======
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-  <div style="position: relative;">
-    <mt-header fixed title="个人车位租赁系统"></mt-header>
-    <div style="margin-top: 40px; height: 40px;">
-      <el-row>
-        <el-button size="small" type="primary" style="margin: 10px 10px; float: left;" @click="addPark">新增</el-button>
-        <el-button size="small" type="primary" style="margin: 10px 10px 10px 0px; float: right;" @click="search">搜索</el-button>
-        <el-input size="small" style="margin: 10px 0px;float: right;width: 50%;" placeholder="市区" v-model="condition" clearable></el-input>
-      </el-row>
-    </div>
-    <div style="margin-top: 20px;"> 
-    <ul class="mui-table-view mui-table-view-chevron">
-      <li class="mui-table-view-cell mui-media" v-for="(item, index) in parkInfo">
-        <a class="mui-navigate-right" href="javascript:void(0)" @click.stop="showDetails(item)">
-          <img class="mui-media-object mui-pull-left" src="../../../server/images/1.jpg">
-          <div class="mui-media-body">
-            <span style="text-align: left;">{{item.parkcity}}:{{item.parkstreet}}</span>
-            <p class='mui-ellipsis'>{{item.parkdetails}}</p>
-          </div>
-        </a>
-      </li>
-    </ul>
-    </div>
-
-
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 
     <v-bottom></v-bottom>
   </div>
@@ -128,24 +89,12 @@
 <script>
 import Buttom from '@/components/bottom'
 import { Toast } from 'mint-ui'
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { MessageBox } from 'mint-ui'
 import {getFullFormatDate} from '../../assets/js/common.js'
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 export default {
   data () {
     return {
       parkInfo:[],
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
       condition:'',
       dialogVisible:false,
       name:'',
@@ -162,22 +111,6 @@ export default {
         return 'reserved';
       }
     },
-=======
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-      condition:''
-    }
-  },
-  methods:{
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
     // 获取车位信息
     getUserParkInfo(){
       this.$axios.get('/api/pps/getUserPark',
@@ -195,9 +128,6 @@ export default {
         });
 
     },
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     // 跳转到新增页面
     addPark(){
       this.$router.push('/addPark');
@@ -206,24 +136,6 @@ export default {
     search(){
       if (this.condition == ''){
         this.getUserParkInfo();
-=======
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-    addPark(){
-      this.$router.push('/addPark');
-    },
-    search(){
-      if (this.condition == ''){
-        Toast('请先填写搜索条件！');
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
         return;
       }
       this.$axios.get('/api/pps/searchUserPark',
@@ -242,9 +154,6 @@ export default {
         }).catch((err)=>{
           throw err;
         });
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     },
     // 状态转换
     changeStatus(value){
@@ -311,22 +220,6 @@ export default {
     phoneCall(){
       this.dialogVisible = false;
       window.location.href = 'tel:'+this.phone;
-=======
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-      //this.getUserParkInfo({'condition':"parkcity like '%"+this.condition+"%'"});
-    },
-    showDetails(item){
-      console.log(item);
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
     },
   },
   mounted() {
@@ -339,9 +232,6 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 <style lang='stylus' scoped >
 .body-card {
   width: 94%;
@@ -382,14 +272,4 @@ export default {
 .item {
   margin-bottom: 10px;
 }
-
-=======
-<style scoped src="../../assets/dist/css/mui.css">
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-<style scoped src="../../assets/dist/css/mui.css">
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-<style scoped src="../../assets/dist/css/mui.css">
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 </style>

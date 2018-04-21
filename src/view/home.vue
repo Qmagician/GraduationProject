@@ -1,17 +1,7 @@
 <template>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   <div class="home-style">
-=======
-  <div>
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-  <div>
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-  <div>
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+
       <mt-header fixed title="个人车位租赁系统"></mt-header>
       <div id="container"></div>
       <!-- <div id="tip"></div> -->
@@ -78,19 +68,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 <style lang='stylus' scoped>
-=======
-<style scoped>
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-<style scoped>
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
-<style scoped>
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
+
 h3 {
   font-weight: normal;
 }

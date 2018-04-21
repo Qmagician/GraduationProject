@@ -21,9 +21,6 @@ router.get('/pps/getUserPark', function(req, res, next) {
 router.get('/pps/searchUserPark', function(req, res, next) {
   api.searchUserPark(req, res, next);
 })
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 // 删除
 router.get('/pps/deleteParkInfo', function(req, res, next) {
   api.deleteParkInfo(req, res, next);
@@ -40,12 +37,6 @@ router.get('/pps/rejectOrder', function(req, res, next) {
 router.get('/pps/agreeOrder', function(req, res, next) {
   api.agreeOrder(req, res, next);
 })
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
-=======
->>>>>>> 447b847412bf8b44e0ba21237d11dc6ee49763af
 // 上传车位信息
 router.get('/pps/saveParkInfo', function(req, res, next) {
 	api.saveParkInfo(req, res, next);
