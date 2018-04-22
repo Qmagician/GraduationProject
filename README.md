@@ -12,8 +12,8 @@ cnpm install element-ui vuex axios mysql express body-parser --save
 cnpm install mint-ui vue-amap --save
 cnpm install stylus  --save-dev
 cnpm install stylus-loader css-loader style-loader --save-dev
-
-
+#省市区联动选择组件依赖
+cnpm install vue-area-linkage --save
 # serve with hot reload at localhost:8080
 npm run dev
 

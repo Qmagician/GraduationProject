@@ -37,9 +37,13 @@ router.get('/pps/rejectOrder', function(req, res, next) {
 router.get('/pps/agreeOrder', function(req, res, next) {
   api.agreeOrder(req, res, next);
 })
+// 上传图片
+router.post('/pps/uploadImage', function(req, res, next) {
+  api.uploadImage(req, res, next);
+})
 // 上传车位信息
-router.get('/pps/saveParkInfo', function(req, res, next) {
-	api.saveParkInfo(req, res, next);
+router.get('/pps/addParkInfo', function(req, res, next) {
+	api.addParkInfo(req, res, next);
 })
 router.get('/pps/getPpsAll', function(req, res, next) {
   api.getPpsAll(req, res, next);

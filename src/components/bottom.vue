@@ -10,7 +10,7 @@
       </mt-tab-item>
       <mt-tab-item id="mine">
         <img slot="icon" src="../assets/mine.png">
-        我的
+        我的车位
       </mt-tab-item>
     </mt-tabbar>
 </template>

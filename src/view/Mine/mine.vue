@@ -1,10 +1,10 @@
 <template>
   <div class="mine-style">
     <mt-header fixed title="个人车位租赁系统"></mt-header>
-    <div style="margin-top: 40px; width: 100%;height: 40px;">
+    <div class="add-search-style">
       <el-row>
-        <el-button size="small" type="primary" style="margin: 10px 10px; float: left;" @click="addPark">新增</el-button>
-        <el-input size="small" style="margin: 10px 0px;width: 75%;" placeholder="市区" v-model="condition" clearable>
+        <el-button size="small" type="primary" class="add-btn" @click="addPark">新增</el-button>
+        <el-input size="small" class="search-input" placeholder="市区" v-model="condition" clearable>
           <el-button size="small"  slot="append" @click="search">搜索</el-button>
         </el-input>
       </el-row>
@@ -55,6 +55,11 @@
           <el-row>
             <el-col :span="10" class="item-title">结束时间：</el-col>
             <el-col :span="14" class="item-text" >{{changeTime(item.endtime)}}</el-col>
+          </el-row>
+          <hr />
+          <el-row>
+            <el-col :span="10" class="item-title">详细地址：</el-col>
+            <el-col :span="14" class="item-text" >{{item.parkdetails}}</el-col>
           </el-row>
           <hr />
         </el-col>
@@ -130,6 +135,7 @@ export default {
     },
     // 跳转到新增页面
     addPark(){
+      sessionStorage.setItem('operateType','add');
       this.$router.push('/addPark');
     },
     // 搜索
@@ -183,6 +189,7 @@ export default {
     },
     // 编辑
     editInfo(item){
+      sessionStorage.setItem('operateType','edit');
       sessionStorage.setItem('parkInfoData',JSON.stringify(item));
       this.$router.push('/addPark');
     },
@@ -233,6 +240,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='stylus' scoped >
+.add-search-style {
+  margin-top: 40px;
+  margin-left: 3%; 
+  width: 94%;
+  height: 40px;
+  .add-btn {
+    margin: 10px 0px; float: left;
+  }
+  .search-input {
+    margin: 10px 0px;
+    width: 75%;
+    float: right;
+  }
+}
 .body-card {
   width: 94%;
   margin-left: 3%;

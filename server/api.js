@@ -142,7 +142,32 @@ module.exports = {
   },
   // 编辑当前用户车位信息
   editParkInfo(req, res, next) {
-    
+    let params = req.query;
+    let num = params.num;
+    let parkcity = params.areaString;
+    let parkstreet = params.streetString;
+    let parkdetails = params.detailAddr;
+    let starttime = params.startTime;
+    let endtime = params.endTime;
+    let price = params.price;
+    let imageurl = params.imageUrl;
+    let status = params.status;
+    pool.getConnection((err, connection) => {
+      connection.query(sqlMap.pps.updatePark,[parkcity,parkstreet,parkdetails,starttime,endtime,price,imageurl,status,num],(err, result) => {
+        if (err){
+          res.json({
+            status: 'FAIL',
+            message: '服务器错误,请稍后再试!'
+          });
+        }else{
+          res.json({
+            status: 'SUCCESS',
+            message: '编辑成功!'
+          });
+        }
+        connection.release();
+      })
+    });
   },
   // 拒绝预约
   rejectOrder(req, res, next) {
@@ -184,9 +209,18 @@ module.exports = {
       })
     })
   },
+  // 图片在页面显示
+  uploadImage(req, res, next) {
+    console.log(req);
+    res.json({});
+  },
   // 新增车位信息
-  saveParkInfo(req, res, next){
+  addParkInfo(req, res, next){
     let params = req.query;
+    // let file = JSON.parse(req.query.fileData);
+    // let img = file.url;
+    // console.log(file.url);
+    // console.log(img);
     let userid = params.userid;
     let parkcity = params.areaString;
     let parkstreet = params.streetString;
@@ -199,13 +233,9 @@ module.exports = {
     pool.getConnection((err, connection) => {
       connection.query(sqlMap.pps.insertPark,[userid,parkcity,parkstreet,parkdetails,starttime,endtime,price,imageurl,status],(err, result) => {
         if (err){
-          let msg = '服务器错误,请稍后再试!';
-          if (err.errno == '1292'){
-            msg = '请正确填写时间信息'
-          }
           res.json({
             status: 'FAIL',
-            message: msg
+            message: '服务器错误,请稍后再试!'
           });
         }else{
           res.json({
