@@ -8,6 +8,10 @@
         <img slot="icon" src="../assets/find.png">
         预约车位
       </mt-tab-item>
+      <mt-tab-item id="reserved">
+        <img slot="icon" src="../assets/reserved.png">
+        我的预约
+      </mt-tab-item>
       <mt-tab-item id="mine">
         <img slot="icon" src="../assets/mine.png">
         我的车位

@@ -29,10 +29,10 @@
 				<el-date-picker :editable='false' v-model="ruleForm.time2" type="datetime" :picker-options='datePicker' placeholder="选择日期时间" style="width: 100%;"></el-date-picker>
 			</el-form-item>
 			<el-form-item label="价格" prop="price">
-				<el-input v-model.number="ruleForm.price" clearable><span slot="append">元/小时</span></el-input>
+				<el-input v-model.number="ruleForm.price" clearable><span slot="append">元 / 小时</span></el-input>
 			</el-form-item>
 			<el-form-item label="车位照片" prop="imageUrl">
-				<el-upload class="avatar-uploader" action="http://192.168.88.111:8888/api/pps/uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+				<el-upload class="avatar-uploader" multiple action="http://192.168.88.111:8888/api/pps/uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
   			<img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="avatar">
   			<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				</el-upload>

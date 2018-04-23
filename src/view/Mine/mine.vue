@@ -41,7 +41,7 @@
             <hr />
             <el-row>
               <el-col :span="10" class="item-title">价格：</el-col>
-              <el-col :span="14" class="item-text">{{item.price}}元/小时</el-col>
+              <el-col :span="14" class="item-text">{{item.price}}元 / 小时</el-col>
             </el-row>
             <hr />
           </el-col>
@@ -146,7 +146,7 @@ export default {
       }
       this.$axios.get('/api/pps/searchUserPark',
           {
-            params:{'parkcity':this.condition,'userid':sessionStorage.getItem('userId')}
+            params:{'type':'user','parkcity':this.condition,'userid':sessionStorage.getItem('userId')}
           }).then((res)=>{
           if (res.data.status === 'FAIL'){
             Toast(res.data.message);

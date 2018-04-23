@@ -112,13 +112,42 @@ module.exports = {
   searchUserPark(req, res, next) {
     let parkcity = req.query.parkcity;
     let userid = req.query.userid;
-    let sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where parkcity like '%"+parkcity+"%' and userid="+userid;
+    let type = req.query.type;
+    let sql = '';
+    if (type == 'user'){
+      sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where parkcity like '%"
+      +parkcity+"%' and userid="+userid+" order by status desc";
+    }else {
+      sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where parkcity like '%"
+      +parkcity+"%' and userid!="+userid+" and status=0";
+    }
     pool.getConnection((err, connection) => {
       connection.query(sql,(err, result) => {
         jsonWrite(res, result);
         connection.release();
       })
     })
+  },
+  // 预约车位
+  reservePark(req, res, next) {
+    let num = req.query.num;
+    let userid = req.query.userid;
+    pool.getConnection((err, connection) => {
+      connection.query(sqlMap.pps.reservePark,[userid,num],(err, result) => {
+        if (err){
+          res.json({
+            status: 'FAIL',
+            message: '服务器错误,请稍后再试!'
+          });
+        }else{
+          res.json({
+            status: 'SUCCESS',
+            message: '申请成功，等待对方确认!'
+          });
+        }
+        connection.release();
+      })
+    }) 
   },
   // 删除当前用户车位信息
   deleteParkInfo(req, res, next) {
