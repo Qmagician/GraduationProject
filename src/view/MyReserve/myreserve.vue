@@ -3,7 +3,7 @@
     <mt-header fixed title="个人车位租赁系统"></mt-header>
     <div class="add-search-style">
       <el-row>
-        <el-button size="small" type="primary" class="add-btn" @click="addPark">新增</el-button>
+        <!-- <el-button size="small" type="primary" class="history-btn" @click="reservedHistory">历史记录</el-button> -->
         <el-input size="small" class="search-input" placeholder="市区 / 街道" v-model="condition" clearable>
           <el-button size="small"  slot="append" @click="search">搜索</el-button>
         </el-input>
@@ -63,22 +63,15 @@
           </el-row>
           <hr />
         </el-col>
-        <div style="margin-top:10px;" v-if="item.status=='0'">
-          <el-button size="small" class="operate-btn" type="primary" @click="deleteInfo(item)">删除</el-button>
-          <el-button size="small" class="operate-btn" type="primary" @click="editInfo(item)">编辑</el-button>
-        </div>
-        <div style="margin-top:10px;" v-if="item.status=='1'">
-          <el-button size="small" class="operate-btn" type="primary" @click="reject(item)">拒绝</el-button>
-          <el-button size="small" class="operate-btn" type="primary" @click="agreement(item)">同意</el-button>
-        </div>
         <div style="margin-top:10px;" v-if="item.status=='1' || item.status=='2'">
-          <el-button size="small" class="operate-btn" type="primary" @click="dialogShow(item)">预约者</el-button>
+          <el-button size="small" class="operate-btn" type="primary" @click="dialogShow(item)">所属人</el-button>
+          <el-button size="small" class="operate-btn" type="primary" @click="cancelReserve(item)">取消</el-button>
         </div>
       </el-card>
 
     </div>
 
-    <el-dialog title="预约者信息" :visible.sync="dialogVisible" width="70%" >
+    <el-dialog title="所属人信息" :visible.sync="dialogVisible" width="70%" >
       <div>姓名：{{name}}</div>
       <div>tel：{{phone}}</div>
       <span slot="footer" class="dialog-footer">
@@ -117,10 +110,10 @@ export default {
       }
     },
     // 获取车位信息
-    getUserParkInfo(){
+    getReserveParkInfo(){
       this.$axios.get('/api/pps/getUserPark',
           {
-            params:{'module':'MINE','userid':sessionStorage.getItem('userId')}
+            params:{'module':'MYRESERVE','userid':sessionStorage.getItem('userId')}
           }).then((res)=>{
           if (res.data.status === 'FAIL'){
             Toast(res.data.message);
@@ -134,19 +127,19 @@ export default {
 
     },
     // 跳转到新增页面
-    addPark(){
-      sessionStorage.setItem('operateType','add');
-      this.$router.push('/addPark');
+    reservedHistory(){
+      /*sessionStorage.setItem('operateType','add');
+      this.$router.push('/addPark');*/
     },
     // 搜索
     search(){
       if (this.condition == ''){
-        this.getUserParkInfo();
+        this.getReserveParkInfo();
         return;
       }
       this.$axios.get('/api/pps/searchUserPark',
           {
-            params:{'section':'MINE','parkcity':this.condition,'userid':sessionStorage.getItem('userId')}
+            params:{'section':'MYRESERVE','parkcity':this.condition,'userid':sessionStorage.getItem('userId')}
           }).then((res)=>{
           if (res.data.status === 'FAIL'){
             Toast(res.data.message);
@@ -164,7 +157,6 @@ export default {
     // 状态转换
     changeStatus(value){
       switch(value){
-        case 0: return '待预约';break;
         case 1: return '待确认';break;
         case 2: return '已预约';break;
         default:;
@@ -175,49 +167,23 @@ export default {
       let tempTime = getFullFormatDate(new Date(time));
       return tempTime;
     },
-    // 删除
-    deleteInfo(item){
-      MessageBox.confirm('确定要删除该车位信息?').then(action => {
-        this.$axios.get('/api/pps/deleteParkInfo',
+    // 取消预约
+    cancelReserve(item){
+      MessageBox.confirm('确定取消该车位的预约吗?').then(action => {
+        this.$axios.get('/api/pps/rejectOrder',
         {
           params:{'num':item.num}
         }).then((res)=>{ 
-          Toast(res.data.message);
+          if (res.data.status === 'SUCCESS'){
+            Toast('已成功取消对该车位的预约！');
+          }else{
+            Toast(res.data.message);
+          }
         }).catch((err)=>{
           throw err;
         });
-        this.getUserParkInfo();
+        this.getReserveParkInfo();
       });
-    },
-    // 编辑
-    editInfo(item){
-      sessionStorage.setItem('operateType','edit');
-      sessionStorage.setItem('parkInfoData',JSON.stringify(item));
-      this.$router.push('/addPark');
-    },
-    // 拒绝
-    reject(item){
-      this.$axios.get('/api/pps/rejectOrder',
-      {
-        params:{'num':item.num}
-      }).then((res)=>{ 
-        Toast(res.data.message);
-      }).catch((err)=>{
-        throw err;
-      });
-      this.getUserParkInfo();
-    },
-    // 同意
-    agreement(item){
-      this.$axios.get('/api/pps/agreeOrder',
-      {
-        params:{'num':item.num}
-      }).then((res)=>{
-        Toast(res.data.message);
-      }).catch((err)=>{
-        throw err;
-      });
-      this.getUserParkInfo();
     },
     // 预约者信息弹窗
     dialogShow(item){
@@ -232,7 +198,7 @@ export default {
     },
   },
   mounted() {
-    this.getUserParkInfo();
+    this.getReserveParkInfo();
   },
   components:{
     'v-bottom':Buttom,
@@ -247,12 +213,12 @@ export default {
   margin-left: 3%; 
   width: 94%;
   height: 40px;
-  .add-btn {
+  .history-btn {
     margin: 10px 0px; float: left;
   }
   .search-input {
     margin: 10px 0px;
-    width: 75%;
+    width: 100%;
     float: right;
   }
 }

@@ -3,7 +3,7 @@
     <mt-header fixed title="个人车位租赁系统"></mt-header>
     <div style="margin-top: 45px;width: 94%;margin-left: 3%">
       <el-row>
-        <el-input size="small" class="search-input" placeholder="市区" v-model="condition" clearable>
+        <el-input size="small" class="search-input" placeholder="市区 / 街道" v-model="condition" clearable>
           <el-button size="small"  slot="append" @click="search">搜索</el-button>
         </el-input>
       </el-row>
@@ -62,7 +62,7 @@ export default {
       }
       this.$axios.get('/api/pps/searchUserPark',
           {
-            params:{'type':'all','parkcity':this.condition,'userid':sessionStorage.getItem('userId')}
+            params:{'section':'FIND','parkcity':this.condition,'userid':sessionStorage.getItem('userId')}
           }).then((res)=>{
           if (res.data.status === 'FAIL'){
             Toast(res.data.message);
@@ -78,7 +78,6 @@ export default {
         });
     },
     showDetails(item){
-      console.log(item);
       sessionStorage.setItem('parkDetailsData',JSON.stringify(item));
       this.$router.push('/details');
     },

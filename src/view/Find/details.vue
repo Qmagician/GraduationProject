@@ -92,15 +92,12 @@ export default {
     		params:{num:this.parkDetails.num,userid:sessionStorage.getItem('userId')}
     	}).then((res)=>{
     		Toast(res.data.message);
-    		/*if (res.data.status === 'FAIL'){
-    			Toast(res.data.message);
-    		}else{
-    			this.parkInfo = res.data;
-    		}*/
-
     	}).catch((err)=>{
     		throw err;
     	});
+    	this.dialogVisible = false;
+    	sessionStorage.setItem("page","reserved");
+    	this.$router.push('/myreserve');
     },
     phoneCall(){
     	window.location.href = 'tel:'+this.parkDetails.phone;

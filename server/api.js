@@ -100,9 +100,16 @@ module.exports = {
   },
   // 获取当前用户车位信息
   getUserPark(req, res, next) {
+    let module = req.query.module;
     let userid = req.query.userid;
+    let sql = '';
+    if (module == 'MINE'){
+      sql = "select * from parkinfo left join user on parkinfo.subscriber=user.id where userid='"+ userid +"' order by status desc";
+    }else{
+      sql = "select * from parkinfo left join user on parkinfo.userid=user.id where subscriber='"+ userid +"' order by status desc"
+    }
     pool.getConnection((err, connection) => {
-      connection.query(sqlMap.pps.queryUserPark,[userid],(err, result) => {
+      connection.query(sql,(err, result) => {
         jsonWrite(res, result);
         connection.release();
       })
@@ -112,15 +119,19 @@ module.exports = {
   searchUserPark(req, res, next) {
     let parkcity = req.query.parkcity;
     let userid = req.query.userid;
-    let type = req.query.type;
+    let section = req.query.section;
     let sql = '';
-    if (type == 'user'){
-      sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where parkcity like '%"
-      +parkcity+"%' and userid="+userid+" order by status desc";
+    if (section == 'MINE'){
+      sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where (parkcity like '%"
+      +parkcity+"%' or parkstreet like '%"+parkcity+"%') and userid="+userid+" order by status desc";
+    }else if (section == 'FIND'){
+      sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where (parkcity like '%"
+      +parkcity+"%' or parkstreet like '%"+parkcity+"%') and userid!="+userid+" and status=0";
     }else {
-      sql = "select * from parkInfo left join user on parkinfo.subscriber=user.id where parkcity like '%"
-      +parkcity+"%' and userid!="+userid+" and status=0";
+      sql = "select * from parkInfo left join user on parkinfo.userid=user.id where (parkcity like '%"
+      +parkcity+"%' or parkstreet like '%"+parkcity+"%') and subscriber="+userid+" order by status desc";
     }
+
     pool.getConnection((err, connection) => {
       connection.query(sql,(err, result) => {
         jsonWrite(res, result);

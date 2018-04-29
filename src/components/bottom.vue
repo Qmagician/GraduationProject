@@ -32,6 +32,7 @@ export default {
         switch(val){
           case 'home_page':sessionStorage.setItem("page","home_page");this.$router.push('/home');break;
           case 'find':sessionStorage.setItem("page","find");this.$router.push('/find');break;
+          case 'reserved':sessionStorage.setItem("page","reserved");this.$router.push('/myreserve');break;
           case 'mine':sessionStorage.setItem("page","mine");this.$router.push('/mine');break;
           default:;
         }

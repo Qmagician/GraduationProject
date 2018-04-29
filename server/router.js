@@ -13,7 +13,7 @@ router.get('/pps/register', function(req, res, next) {
 router.get('/pps/getImagesList', function(req, res, next) {
 	api.getImagesList(req, res, next);
 })
-// 获取当前用户车位信息
+// 获取用户（个人或预约）车位信息
 router.get('/pps/getUserPark', function(req, res, next) {
   api.getUserPark(req, res, next);
 })

@@ -4,6 +4,7 @@ import Login from '@/view'
 import Home from '@/view/home'
 import Find from '@/view/Find/find'
 import Details from '@/view/Find/details'
+import Reserve from '@/view/MyReserve/myreserve'
 import Mine from '@/view/Mine/mine'
 import addPark from '@/view/Mine/addPark'
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/details',
       name: 'details',
       component: Details
+    },
+    {
+      path: '/myreserve',
+      name: 'myreserve',
+      component: Reserve
     },
     {
       path: '/mine',
