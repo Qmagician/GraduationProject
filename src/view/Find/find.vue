@@ -15,7 +15,7 @@
           <img class="mui-media-object mui-pull-left" src="../../../server/images/1.jpg">
           <div class="mui-media-body">
             <span style="text-align: left;">{{item.parkcity}}:{{item.parkstreet}}</span>
-            <p class='mui-ellipsis'>{{item.parkdetails}}</p>
+            <p class='mui-ellipsis'>{{changeTime(item.starttime)}}—{{changeTime(item.endtime)}}</p>
           </div>
         </a>
       </li>
@@ -28,6 +28,7 @@
 <script>
 import Buttom from '@/components/bottom'
 import { Toast } from 'mint-ui'
+import {getFullFormatDate} from '../../assets/js/common.js'
 //import '../../assets/dist/css/mui.css'
 export default {
   data () {
@@ -37,6 +38,7 @@ export default {
     }
   },
   methods:{
+
     // 获取车位信息
     getParkInfo(){
       this.$axios.get('/api/pps/getImagesList',
@@ -53,6 +55,11 @@ export default {
           throw err;
         });
 
+    },
+    // 时间转换
+    changeTime(time){
+      let tempTime = getFullFormatDate(new Date(time));
+      return tempTime;
     },
     // 搜索
     search(){

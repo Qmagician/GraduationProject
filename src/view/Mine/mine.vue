@@ -74,6 +74,7 @@
         <div style="margin-top:10px;" v-if="item.status=='1' || item.status=='2'">
           <el-button size="small" class="operate-btn" type="primary" @click="dialogShow(item)">预约者</el-button>
         </div>
+        <el-button size="small" class="operate-btn" type="primary" @click="searchMap(item)">位置</el-button>
       </el-card>
 
     </div>
@@ -132,6 +133,11 @@ export default {
           throw err;
         });
 
+    },
+    // 车位地理位置
+     searchMap(item){
+      sessionStorage.setItem('searchValue',item.parkcity+item.parkstreet+item.parkdetails);
+      this.$router.push('/searchmap');
     },
     // 跳转到新增页面
     addPark(){

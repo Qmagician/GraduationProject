@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/view'
 import Home from '@/view/home'
+import SearchMap from '@/view/searchmap'
 import Find from '@/view/Find/find'
 import Details from '@/view/Find/details'
 import Reserve from '@/view/MyReserve/myreserve'
@@ -22,6 +23,11 @@ export default new Router({
   		name: 'home',
   		component: Home
   	},
+    {
+      path: '/searchmap',
+      name: 'searchmap',
+      component: SearchMap
+    },
     {
       path: '/find',
       name: 'find',

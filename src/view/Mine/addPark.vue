@@ -125,6 +125,7 @@
           starttime:'',
           endtime:'',
           price: '',
+          totalcost:0,
           imageUrl: '',
           status:0,
           fileData:'',
@@ -178,7 +179,7 @@
           let area = Object.keys(__d[index2])
           index3 = area.indexOf(values[2])
           picker.setSlotValues(2, area)
-          this.ruleForm.areaString = values.join(',')
+          this.ruleForm.areaString = values.join('')
           if (index3 >= 0) {
             let __a = Object.values(__d[index2])
             let street = __a[index3]
@@ -191,7 +192,7 @@
       },
       // 获取街道值
       onStreeChange(picker, values) {
-        this.ruleForm.streetString = values.join(',')
+        this.ruleForm.streetString = values.join('')
       },
       // 图片上传成功
       handleAvatarSuccess(res, file) {
@@ -215,10 +216,16 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.ruleForm.startTime = getFullFormatDate(new Date(this.ruleForm.time1));
-            this.ruleForm.endTime = getFullFormatDate(new Date(this.ruleForm.time2));
+            let t1 = new Date(this.ruleForm.time1);
+            let t2 = new Date(this.ruleForm.time2);
+            this.ruleForm.totalcost = (parseInt(t2 - t1) / 1000 / 60 / 60) * Number(this.ruleForm.price);
+            this.ruleForm.totalcost = parseFloat(this.ruleForm.totalcost.toFixed(2));
+            console.log(this.ruleForm.totalcost);
+            this.ruleForm.startTime = getFullFormatDate(t1);
+            this.ruleForm.endTime = getFullFormatDate(t2);
             delete this.ruleForm.time1;
             delete this.ruleForm.time2;
+            console.log(this.ruleForm);
             let api = this.operateType == 'add' ? '/api/pps/addParkInfo' : '/api/pps/editParkInfo';
             this.$axios.get(api,{params:this.ruleForm}).then((res)=>{
                 Toast(res.data.message);

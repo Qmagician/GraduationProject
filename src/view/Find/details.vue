@@ -54,6 +54,7 @@
 		          <div style="margin-top:10px;">
 			          <el-button size="small" class="operate-btn" type="primary" @click="dialogVisible = true">预约</el-button>
 			          <el-button size="small" class="operate-btn" type="primary" @click="phoneCall">电话</el-button>
+			          <el-button size="small" class="operate-btn" type="primary" @click="searchMap">位置</el-button>
 			        </div>
 						</div>
 					</el-card>
@@ -61,7 +62,7 @@
 			</el-row>
 		</div>
 		<el-dialog title="提示" :visible.sync="dialogVisible" width="70%" >
-      <div>确定预约该车位吗？到时后将产生24元的费用。</div>
+      <div>确定预约该车位吗？到时后将产生{{parkDetails.totalcost}}元的费用。</div>
       <span slot="footer" class="dialog-footer">
       <el-button size="small" @click="dialogVisible = false">取 消</el-button>
       <el-button size="small" type="primary" @click="submitReserve">确定</el-button>
@@ -85,6 +86,10 @@ export default {
     changeTime(time){
       let tempTime = getFullFormatDate(new Date(time));
       return tempTime;
+    },
+    searchMap(){
+    	sessionStorage.setItem('searchValue',this.parkDetails.parkcity+this.parkDetails.parkstreet+this.parkDetails.parkdetails);
+    	this.$router.push('/searchmap');
     },
     submitReserve(){
     	this.$axios.get('/api/pps/reservePark',

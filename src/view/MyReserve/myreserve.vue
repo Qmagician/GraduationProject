@@ -66,6 +66,7 @@
         <div style="margin-top:10px;" v-if="item.status=='1' || item.status=='2'">
           <el-button size="small" class="operate-btn" type="primary" @click="dialogShow(item)">所属人</el-button>
           <el-button size="small" class="operate-btn" type="primary" @click="cancelReserve(item)">取消</el-button>
+          <el-button size="small" class="operate-btn" type="primary" @click="searchMap(item)">位置</el-button>
         </div>
       </el-card>
 
@@ -125,6 +126,11 @@ export default {
           throw err;
         });
 
+    },
+    // 车位地理位置
+     searchMap(item){
+      sessionStorage.setItem('searchValue',item.parkcity+item.parkstreet+item.parkdetails);
+      this.$router.push('/searchmap');
     },
     // 跳转到新增页面
     reservedHistory(){

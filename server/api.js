@@ -260,7 +260,7 @@ module.exports = {
     // let file = JSON.parse(req.query.fileData);
     // let img = file.url;
     // console.log(file.url);
-    // console.log(img);
+     console.log(params);
     let userid = params.userid;
     let parkcity = params.areaString;
     let parkstreet = params.streetString;
@@ -268,10 +268,11 @@ module.exports = {
     let starttime = params.startTime;
     let endtime = params.endTime;
     let price = params.price;
+    let totalcost = params.totalcost;
     let imageurl = params.imageUrl;
     let status = params.status;
     pool.getConnection((err, connection) => {
-      connection.query(sqlMap.pps.insertPark,[userid,parkcity,parkstreet,parkdetails,starttime,endtime,price,imageurl,status],(err, result) => {
+      connection.query(sqlMap.pps.insertPark,[userid,parkcity,parkstreet,parkdetails,starttime,endtime,price,totalcost,imageurl,status],(err, result) => {
         if (err){
           res.json({
             status: 'FAIL',

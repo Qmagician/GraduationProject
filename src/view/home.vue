@@ -4,6 +4,9 @@
 
       <mt-header fixed title="个人车位租赁系统"></mt-header>
       <div id="container"></div>
+      <div id="tip" style="margin-top: 45px;">
+        <input type="text" id="keyword" name="keyword" value="请输入关键字：(选定后搜索)"/>
+      </div>
       <!-- <div id="tip"></div> -->
       <!-- <div id="panel" class="panel"></div> -->
       <v-bottom></v-bottom>
@@ -38,7 +41,7 @@ export default {
         map.addControl(geolocation);
         geolocation.getCurrentPosition(function(status,result){
           AMap.service(["AMap.PlaceSearch"], function() {
-            var placeSearch = new AMap.PlaceSearch({ //构造地点查询类
+            let placeSearch = new AMap.PlaceSearch({ //构造地点查询类
                 pageSize: 5,
                 type: '停车场',
                 pageIndex: 1,
@@ -47,7 +50,7 @@ export default {
                 // panel: "panel"
             });
             
-            var cpoint = [result.position.lng, result.position.lat]; //中心点坐标
+            let cpoint = [result.position.lng, result.position.lat]; //中心点坐标
             placeSearch.searchNearBy('', cpoint, 200, function(status, result) {
 
             });
@@ -55,6 +58,25 @@ export default {
         });
       });
       
+      AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'],function(){
+        let autoOptions = {
+          //city: "北京", //城市，默认全国
+          input: "keyword"//使用联想输入的input的id
+        };
+        let autocomplete= new AMap.Autocomplete(autoOptions);
+        let placeSearch = new AMap.PlaceSearch({
+          //city:'北京',
+          type: '停车场',
+          map:map
+        })
+        AMap.event.addListener(autocomplete, "select", function(e){
+           //TODO 针对选中的poi实现自己的功能
+           placeSearch.setCity(e.poi.adcode);
+           placeSearch.search(e.poi.name)
+         });
+      });
+
+
     },
   },
   mounted(){
@@ -87,11 +109,24 @@ h3 {
 .amap-logo{
   margin-bottom: 55px;
 }
-/* .map-style {
-width: 100%;
-position: absolute;
-top: 0px;
-bottom: 0px;
-left: 0px;
-} */
+#tip {
+  background-color: #ddf;
+  color: #333;
+  border: 1px solid silver;
+  box-shadow: 3px 4px 3px 0px silver;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  line-height: 20px;
+}
+#tip input[type="text"] {
+  height: 25px;
+  border: 0;
+  padding-left: 5px;
+  width: 280px;
+  border-radius: 3px;
+  outline: none;
+}
 </style>

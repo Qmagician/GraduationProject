@@ -10,7 +10,7 @@ var sqlMap = {
     queryAllPark: 'select * from parkInfo left join user on parkinfo.userid=user.id where userid!=? and status=0',
     queryUserPark: 'select * from parkinfo left join user on parkinfo.subscriber=user.id where userid=? order by status desc',
     reservePark: 'update parkInfo set status=1,subscriber=? where num=?',
-    insertPark: 'insert into parkInfo(userid,parkcity,parkstreet,parkdetails,starttime,endtime,price,imageurl,status) values(?,?,?,?,?,?,?,?,?)',
+    insertPark: 'insert into parkInfo(userid,parkcity,parkstreet,parkdetails,starttime,endtime,price,totalcost,imageurl,status) values(?,?,?,?,?,?,?,?,?,?)',
     updatePark: 'update parkInfo set parkcity=?,parkstreet=?,parkdetails=?,starttime=?,endtime=?,price=?,imageurl=?,status=? where num=?',
     deleteInfo:'delete from parkInfo where num=?',
     rejectOrder:"update parkInfo set status=0,subscriber=null where num=?",
