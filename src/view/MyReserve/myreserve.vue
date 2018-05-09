@@ -130,7 +130,7 @@ export default {
     // 车位地理位置
      searchMap(item){
       sessionStorage.setItem('searchValue',item.parkcity+item.parkstreet+item.parkdetails);
-      this.$router.push('/searchmap');
+      this.$router.push({path:'/searchmap',query: {perPage: '/myreserve'}});
     },
     // 跳转到新增页面
     reservedHistory(){

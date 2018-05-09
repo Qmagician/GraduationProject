@@ -18,7 +18,9 @@
         </div>
         <div class="text item">
           <el-col :span="10" >
-            <img src="../../../server/images/1.jpg" height="100px" width="100px" />
+            <!-- <img :src="getImage(item.imageurl)" height="100px" width="100px"  /> -->
+            <img :src="require('../../../server/'+item.imageurl)" height="100px" width="100px" v-if="item.imageurl" />
+            <img src='../../assets/nopicture.png' height="100px" width="100px" v-else />
           </el-col>
           <el-col :span="14">
             <el-row>
@@ -91,7 +93,6 @@
     <v-bottom></v-bottom>
   </div>
 </template>
-
 <script>
 import Buttom from '@/components/bottom'
 import { Toast } from 'mint-ui'
@@ -117,6 +118,34 @@ export default {
         return 'reserved';
       }
     },
+    getImage(imageUrl){
+      let THIS = this;
+      this.$axios.get('/api/pps/getImage',{
+        params:{'imageUrl':imageUrl}
+      }).then((res) => {
+        var binaryData = [];
+        binaryData.push(res.data);
+        let imgSrc = window.URL.createObjectURL(new Blob(binaryData, {type: "image/jpeg/png"}));
+        // var img = document.createElement('img');
+        // img.src = window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}));
+        // img.height = 60;
+        // img.onload = function() {
+        //     window.URL.revokeObjectURL(this.src);
+        // }
+        //this.$refs.imageRef.src=img.src;
+        console.log(imgSrc);
+        return imgSrc;
+        
+        //return require('../../assets/nopicture.png');
+        // if(res.data.status == 'SUCCESS'){
+        //   return res.imageUrl;
+        // }else{
+        //   return require('../../assets/nopicture.png');
+        // }
+      }).catch((err) => {
+        throw err;
+      })
+    },
     // 获取车位信息
     getUserParkInfo(){
       this.$axios.get('/api/pps/getUserPark',
@@ -137,7 +166,7 @@ export default {
     // 车位地理位置
      searchMap(item){
       sessionStorage.setItem('searchValue',item.parkcity+item.parkstreet+item.parkdetails);
-      this.$router.push('/searchmap');
+      this.$router.push({path:'/searchmap',query: {perPage: '/mine'}});
     },
     // 跳转到新增页面
     addPark(){
@@ -186,7 +215,7 @@ export default {
       MessageBox.confirm('确定要删除该车位信息?').then(action => {
         this.$axios.get('/api/pps/deleteParkInfo',
         {
-          params:{'num':item.num}
+          params:{'num':item.num,'imageurl':item.imageurl}
         }).then((res)=>{ 
           Toast(res.data.message);
         }).catch((err)=>{

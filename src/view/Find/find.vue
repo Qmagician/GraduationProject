@@ -12,7 +12,7 @@
     <ul class="mui-table-view mui-table-view-chevron">
       <li class="mui-table-view-cell mui-media" v-for="(item, index) in parkInfo">
         <a class="mui-navigate-right" href="javascript:void(0)" @click.stop="showDetails(item)">
-          <img class="mui-media-object mui-pull-left" src="../../../server/images/1.jpg">
+          <img class="mui-media-object mui-pull-left" :src="require('../../../server/'+item.imageurl)">
           <div class="mui-media-body">
             <span style="text-align: left;">{{item.parkcity}}:{{item.parkstreet}}</span>
             <p class='mui-ellipsis'>{{changeTime(item.starttime)}}—{{changeTime(item.endtime)}}</p>

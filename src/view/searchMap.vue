@@ -3,7 +3,7 @@
   <div>
 
     <mt-header fixed title="车位位置">
-      <router-link to="/details" slot="left">
+      <router-link :to="{ path: perPage }" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
@@ -22,13 +22,17 @@ import Buttom from '@/components/bottom'
 
 
 export default {
-  name: 'home',
+  
   data () {
     return {
+      perPage: '',
       searchPlace:'',
     }
   },
   methods: {
+    goBack(){
+      this.$router.back(-1);
+    },
     loadmap(){
       let THIS = this;
       var windowsArr = [];
@@ -62,6 +66,7 @@ export default {
   },
   mounted(){
     this.searchPlace = sessionStorage.getItem('searchValue');
+    this.perPage = this.$route.query.perPage;
     //this.getLatAndLng();
     this.loadmap();     //加载地图和相关组件
   },

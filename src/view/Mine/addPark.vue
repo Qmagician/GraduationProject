@@ -31,9 +31,9 @@
 			<el-form-item label="价格" prop="price">
 				<el-input v-model.number="ruleForm.price" clearable><span slot="append">元 / 小时</span></el-input>
 			</el-form-item>
-			<el-form-item label="车位照片" prop="imageUrl">
-				<el-upload class="avatar-uploader" multiple action="http://192.168.88.111:8888/api/pps/uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-  			<img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="avatar">
+			<el-form-item label="车位照片">
+				<el-upload class="avatar-uploader" multiple name="image" action="http://192.168.6.228:8888/api/pps/uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :data="ruleForm" :before-upload="beforeAvatarUpload">
+  			<img v-if="imageUrl" :src="imageUrl" class="avatar">
   			<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				</el-upload>
 			</el-form-item>
@@ -50,7 +50,7 @@
 <script>
 	import data from '../../assets/data/data2.json'
   import { Toast } from 'mint-ui'
-  import {getFullFormatDate} from '../../assets/js/common.js'
+  import {getFullFormatDate, generateID} from '../../assets/js/common.js'
   var index = 0
   var index2 = 0
   var index3 = 0
@@ -112,9 +112,10 @@
           className: 'slot1',
           textAlign: 'center'
         }],
+        imageUrl:'',
         // 数据表单（插入数据库的值）
         ruleForm: {
-          num:'',
+          num:generateID(),
           userid: sessionStorage.getItem('userId'),
           areaString: '请选择',
           streetString: '请选择',
@@ -128,7 +129,6 @@
           totalcost:0,
           imageUrl: '',
           status:0,
-          fileData:'',
         },
         datePicker: { //时间控件维保日期时间限制
           disabledDate(time) {
@@ -196,8 +196,12 @@
       },
       // 图片上传成功
       handleAvatarSuccess(res, file) {
-        this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
-        this.ruleForm.fileData = file;
+        if (res.status == 'SUCCESS'){
+          this.ruleForm.imageUrl = res.imageUrl.replace(/\\/g,"/");;
+        }else{
+          Toast(res.message);
+        }
+        this.imageUrl = URL.createObjectURL(file.raw);
      },
       // 在图片上传之前
       beforeAvatarUpload(file) {
@@ -258,7 +262,7 @@
         this.ruleForm.time1 = parkInfoData.starttime;
         this.ruleForm.time2 = parkInfoData.endtime;
         this.ruleForm.price = parkInfoData.price;
-        this.ruleForm.imageUrl = parkInfoData.imageurl;
+        this.imageUrl = require('../../../server/'+parkInfoData.imageurl);
       }
     },
   }

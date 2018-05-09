@@ -9,7 +9,7 @@
 			<el-row>
 				<el-col style="width: 94%; margin-left: 3%;">
 					<el-card style="width: 100%">
-						<img src="../../../server/images/1.jpg" height="250" width="100%" class="image">
+						<img :src="require('../../../server/'+parkDetails.imageurl)" height="250" width="100%" class="image">
 						<div style="padding: 14px;">
 							<el-row>
 		            <el-col :span="8" class="item-title">市区：</el-col>
@@ -87,10 +87,12 @@ export default {
       let tempTime = getFullFormatDate(new Date(time));
       return tempTime;
     },
+    // 车位位置显示
     searchMap(){
     	sessionStorage.setItem('searchValue',this.parkDetails.parkcity+this.parkDetails.parkstreet+this.parkDetails.parkdetails);
-    	this.$router.push('/searchmap');
+    	this.$router.push({path:'/searchmap',query: {perPage: '/details'}});
     },
+    // 预约车位
     submitReserve(){
     	this.$axios.get('/api/pps/reservePark',
     	{
@@ -104,6 +106,7 @@ export default {
     	sessionStorage.setItem("page","reserved");
     	this.$router.push('/myreserve');
     },
+    // 打电话
     phoneCall(){
     	window.location.href = 'tel:'+this.parkDetails.phone;
     },

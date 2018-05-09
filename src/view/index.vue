@@ -1,9 +1,8 @@
 <template>
   <div style="margin-top: 60px;">
+    <img src="../assets/login1.jpg">
     <div class="login-wrap" v-show="showLogin">
-      <img src="../assets/login1.jpg">
       <h3>{{msg}}</h3>
-      <!-- <p v-show="showTishi">{{tishi}}</p> -->
       <el-col :span="24" style="margin-bottom: 10px;">
         <el-input style="width:250px;" placeholder="请输入用户名" v-model="username" clearable :maxlength="32"></el-input>
       </el-col>
@@ -14,13 +13,11 @@
       <el-col :span="24">
         <el-button style="width:250px;" type="primary" v-on:click="login">登录</el-button>
       </el-col>
-      <!-- <button v-on:click="login">登录</button> -->
       <span v-on:click="ToRegister">没有账号？马上注册</span>
     </div>
 
     <div class="register-wrap" v-show="showRegister">
       <h3>{{msg}}</h3>
-      <!-- <p v-show="showTishi">{{tishi}}</p> -->
       <el-col :span="24" style="margin-bottom: 10px;">
         <el-input style="width:250px;" placeholder="请输入用户名" v-model="newUsername" :maxlength="32" clearable></el-input>
       </el-col>
@@ -42,6 +39,7 @@
 <script>
 import {setCookie,getCookie} from '../assets/js/cookie.js'
 import { Toast } from 'mint-ui'
+import {generateID} from '../assets/js/common.js'
 
 export default {
   name: 'login',
@@ -79,6 +77,7 @@ export default {
           }else{
             sessionStorage.setItem('userId', res.data[0].id);
             Toast('登录成功!');
+            //setCookie('username',THIS.username,1000*60);
             setTimeout(function(){
               THIS.$router.push('/home');
             }.bind(THIS),1000);
@@ -99,6 +98,7 @@ export default {
         this.$axios.get('/api/pps/register',
           {
             params:{
+              'id':generateID(),
               'username':THIS.newUsername,
               'password':THIS.newPassword,
               'phone': THIS.phone,
@@ -119,14 +119,14 @@ export default {
       }
     },
     ToRegister(){
-      let THIS = this;
-      THIS.showRegister = true;
-      THIS.showLogin = false;
+      this.showTishi = false;
+      this.showRegister = true;
+      this.showLogin = false;
     },
     ToLogin(){
-      let THIS = this;
-      THIS.showLogin = true;
-      THIS.showRegister = false;
+      this.showTishi = false;
+      this.showLogin = true;
+      this.showRegister = false;
     },
   },
   mounted(){

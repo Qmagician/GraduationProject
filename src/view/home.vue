@@ -1,17 +1,12 @@
 <template>
-
   <div class="home-style">
-
-      <mt-header fixed title="个人车位租赁系统"></mt-header>
-      <div id="container"></div>
-      <div id="tip" style="margin-top: 45px;">
-        <input type="text" id="keyword" name="keyword" value="请输入关键字：(选定后搜索)"/>
-      </div>
-      <!-- <div id="tip"></div> -->
-      <!-- <div id="panel" class="panel"></div> -->
-      <v-bottom></v-bottom>
+    <mt-header fixed title="个人车位租赁系统"></mt-header>
+    <div id="container"></div>
+    <div id="tip" style="margin-top: 45px;">
+      <input type="text" id="keyword" name="keyword" value="请输入关键字：(选定后搜索)"/>
+    </div>
+    <v-bottom></v-bottom>
   </div>
-
 </template>
 
 <script>
@@ -21,7 +16,6 @@ export default {
   name: 'home',
   data () {
     return {
-      msg: '欢迎来到个人车位租赁系统',
     }
   },
   methods: {
@@ -45,9 +39,7 @@ export default {
                 pageSize: 5,
                 type: '停车场',
                 pageIndex: 1,
-                //city: "010", //城市
                 map: map,
-                // panel: "panel"
             });
             
             let cpoint = [result.position.lng, result.position.lat]; //中心点坐标
@@ -60,12 +52,10 @@ export default {
       
       AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch'],function(){
         let autoOptions = {
-          //city: "北京", //城市，默认全国
           input: "keyword"//使用联想输入的input的id
         };
         let autocomplete= new AMap.Autocomplete(autoOptions);
         let placeSearch = new AMap.PlaceSearch({
-          //city:'北京',
           type: '停车场',
           map:map
         })
@@ -80,7 +70,6 @@ export default {
     },
   },
   mounted(){
-    //this.getLatAndLng();
     this.loadmap();     //加载地图和相关组件
   },
   components:{
@@ -93,19 +82,6 @@ export default {
 
 <style lang='stylus' scoped>
 
-h3 {
-  font-weight: normal;
-}
-.panel{
-  position: fixed;
-  background-color: white;
-  max-height: 90%;
-  overflow-y: auto;
-  top: 40px;
-  right: 10px;
-  width: 280px;
-  border-bottom: solid 1px silver;
-}
 .amap-logo{
   margin-bottom: 55px;
 }

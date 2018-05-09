@@ -1,7 +1,8 @@
 var mysql = require('mysql');
 var mysqlConf = require('./db');
 var sqlMap = require('./sqlMap');
-
+var multer = require('multer');
+const fs = require('fs');
 // 连接数据库
 var pool = mysql.createPool({
   host: mysqlConf.mysql.host,
@@ -55,11 +56,12 @@ module.exports = {
   // 注册
   register(req, res, next){
     let params = req.query;
+    let id = params.id;
     let username = params.username;
     let password = params.password;
     let phone = params.phone;
     pool.getConnection((err, connection) => {
-      connection.query(sqlMap.pps.insert,[username,password,phone],(err, result) => {
+      connection.query(sqlMap.pps.insert,[id,username,password,phone],(err, result) => {
         if (err){
           let msg = '服务器错误,请稍后再试!';
           if (err.errno == '1062'){
@@ -70,6 +72,13 @@ module.exports = {
             message: msg
           });
         }else{
+          // 在用户注册成功时，新建一个用户文件夹存放用户资源，如图片
+          fs.mkdir("./images/"+id,function(err){
+            if (err) {
+                return console.error(err);
+            }
+            console.log("目录创建成功。");
+          });
           res.json({
             status: 'SUCCESS',
             message: '注册成功,尝试登陆!'
@@ -97,6 +106,26 @@ module.exports = {
         connection.release();
       })
     })
+  },
+  // 获取车位图片并返回给前端
+  getImage(req, res, next) {
+    res.set( 'content-type', 'image/jpeg/png' );//设置返回类型
+    var stream = fs.createReadStream( req.query.imageUrl );
+    var responseData = [];//存储文件流
+    if (stream) {//判断状态
+        stream.on( 'data', function( chunk ) {
+          responseData.push( chunk );
+        });
+        stream.on( 'end', function() {
+          var finalData = Buffer.concat( responseData );
+          res.write( finalData );
+          res.end();
+        });
+    }
+    // let url = req.query.imageUrl;
+    // res.sendFile( __dirname + "/" + url );
+    // let content =  fs.readFileSync(url,"binary");
+    // res.write(content,"binary");
   },
   // 获取当前用户车位信息
   getUserPark(req, res, next) {
@@ -163,6 +192,7 @@ module.exports = {
   // 删除当前用户车位信息
   deleteParkInfo(req, res, next) {
     let num = req.query.num;
+    let imageurl = req.query.imageurl;
     pool.getConnection((err, connection) => {
       connection.query(sqlMap.pps.deleteInfo,[num],(err, result) => {
         if (err){
@@ -171,6 +201,7 @@ module.exports = {
             message: '服务器错误,请稍后再试!'
           });
         }else{
+          fs.unlinkSync(imageurl);
           res.json({
             status: 'SUCCESS',
             message: '删除成功!'
@@ -249,18 +280,11 @@ module.exports = {
       })
     })
   },
-  // 图片在页面显示
-  uploadImage(req, res, next) {
-    console.log(req);
-    res.json({});
-  },
+
   // 新增车位信息
   addParkInfo(req, res, next){
     let params = req.query;
-    // let file = JSON.parse(req.query.fileData);
-    // let img = file.url;
-    // console.log(file.url);
-     console.log(params);
+    let num = params.num;
     let userid = params.userid;
     let parkcity = params.areaString;
     let parkstreet = params.streetString;
@@ -272,8 +296,9 @@ module.exports = {
     let imageurl = params.imageUrl;
     let status = params.status;
     pool.getConnection((err, connection) => {
-      connection.query(sqlMap.pps.insertPark,[userid,parkcity,parkstreet,parkdetails,starttime,endtime,price,totalcost,imageurl,status],(err, result) => {
+      connection.query(sqlMap.pps.insertPark,[num,userid,parkcity,parkstreet,parkdetails,starttime,endtime,price,totalcost,imageurl,status],(err, result) => {
         if (err){
+          fs.unlinkSync(imageurl);
           res.json({
             status: 'FAIL',
             message: '服务器错误,请稍后再试!'
