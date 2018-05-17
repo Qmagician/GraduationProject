@@ -1,4 +1,4 @@
-//获取格式为yy-MM-dd HH:mm:ss格式的日期
+//获取格式为yyMMddHHmmss格式的日期
 export function getFullFormatDate(dateTime) {
   let nowYear = dateTime.getFullYear();
   let nowMonth = dateTime.getMonth() + 1;
@@ -23,9 +23,25 @@ export function getFullFormatDate(dateTime) {
     second = '0' + second;
   }
   //return (nowYear.toString() + nowMonth.toString() + nowDay.toString() + hour.toString() + minute.toString() + second.toString());
-  return (nowYear.toString() + "-" + nowMonth.toString() + "-" + nowDay.toString() + " " + hour.toString() + ":" + minute.toString() + ":" + second.toString());
+  return (nowYear.toString() + nowMonth.toString() + nowDay.toString() + hour.toString() + minute.toString() + second.toString());
 }
-
+//日期转为yyyy-MM-dd hh:mm:ss格式
+export function changeStrToDate(dateString) {
+  if (!dateString) {
+    return '';
+  }
+  let year = dateString.substring(0, 4);
+  let month = dateString.substring(4, 6);
+  let day = dateString.substring(6, 8);
+  let hour = dateString.substring(8, 10);
+  let minute = dateString.substring(10, 12);
+  let second = dateString.substring(12, 14);
+  if (hour) {
+    return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+  } else {
+    return year + "-" + month + "-" + day;
+  }
+}
 //获取格式为yyMMdd格式的当前日期
 export function getyyyyMMddNowDate() {
   let nowDate = new Date();

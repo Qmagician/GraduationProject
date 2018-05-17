@@ -23,7 +23,7 @@
 		          <hr style="border : 0.5px dashed gray;"/>
 		          <el-row>
 		            <el-col :span="8" class="item-title">详细地址：</el-col>
-		            <el-col :span="16" class="item-text" >{{parkDetails.parkdetails}}</el-col>
+		            <el-col :span="16" class="item-text" >{{parkDetails.parkdetails}}{{parkDetails.carseatnum}}号车位</el-col>
 		          </el-row>
 		          <hr style="border : 0.5px dashed gray;"/>
 		          <el-row>
@@ -62,7 +62,10 @@
 			</el-row>
 		</div>
 		<el-dialog title="提示" :visible.sync="dialogVisible" width="70%" >
-      <div>确定预约该车位吗？到时后将产生{{parkDetails.totalcost}}元的费用。</div>
+      <div>确定预约该车位吗？到时后将产生
+        <span style="font-weight: bold;color: orange;">{{parkDetails.totalcost}}</span>
+        元的费用。
+      </div>
       <span slot="footer" class="dialog-footer">
       <el-button size="small" @click="dialogVisible = false">取 消</el-button>
       <el-button size="small" type="primary" @click="submitReserve">确定</el-button>
@@ -72,19 +75,21 @@
 </template>
 
 <script>
-import {getFullFormatDate} from '../../assets/js/common.js'
+import {changeStrToDate} from '../../assets/js/common.js'
 import { Toast } from 'mint-ui'
 export default {
   data() {
     return {
-      parkDetails:'',
+      parkDetails:{
+        imageurl:'images/nopicture.png',
+      },
       dialogVisible:false,
     };
   },
   methods: {
   	// 时间转换
     changeTime(time){
-      let tempTime = getFullFormatDate(new Date(time));
+      let tempTime = changeStrToDate(time);
       return tempTime;
     },
     // 车位位置显示
@@ -118,7 +123,7 @@ export default {
 </script>
 
 
-<style>
+<style lang="stylus" scoped>
   .time {
     font-size: 13px;
     color: #999;

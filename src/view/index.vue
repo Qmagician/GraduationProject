@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 60px;">
-    <img src="../assets/login1.jpg">
+    <img src="../assets/logo.jpg" style="width: 300px;height: 200px;">
     <div class="login-wrap" v-show="showLogin">
       <h3>{{msg}}</h3>
       <el-col :span="24" style="margin-bottom: 10px;">
@@ -75,7 +75,10 @@ export default {
             THIS.tishi = res.data.message;
             THIS.showTishi = true;
           }else{
+            sessionStorage.setItem("page","home_page");
             sessionStorage.setItem('userId', res.data[0].id);
+            sessionStorage.setItem('userInfoData',JSON.stringify(res.data[0]));
+            sessionStorage.setItem('showTimes', '0');
             Toast('登录成功!');
             //setCookie('username',THIS.username,1000*60);
             setTimeout(function(){
@@ -140,7 +143,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 
 .login-wrap{text-align:center;}
 p{color:red;}

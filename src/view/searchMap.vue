@@ -78,7 +78,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 #tip {
   background-color: #ddf;
   color: #333;

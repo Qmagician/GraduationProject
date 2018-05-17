@@ -22,11 +22,14 @@
 			<el-form-item label="详细地址" prop="detailAddr">
 				<el-input type="textarea" v-model="ruleForm.detailAddr"></el-input>
 			</el-form-item>
+      <el-form-item label="车位编号" prop="carseatnum">
+        <el-input v-model.number="ruleForm.carseatnum" clearable><span slot="append">号车位</span></el-input>
+      </el-form-item>
 			<el-form-item label="开始时间" prop="time1">
-				<el-date-picker :editable='false' v-model="ruleForm.time1" type="datetime" :picker-options='datePicker' placeholder="选择日期时间" style="width: 100%;"></el-date-picker>
+				<el-date-picker :editable='false' v-model="ruleForm.time1" type="datetime" :picker-options='datePicker' placeholder="选择日期时间" style="width: 100%;" ></el-date-picker>
 			</el-form-item>
 			<el-form-item label="结束时间" prop="time2">
-				<el-date-picker :editable='false' v-model="ruleForm.time2" type="datetime" :picker-options='datePicker' placeholder="选择日期时间" style="width: 100%;"></el-date-picker>
+				<el-date-picker :editable='false' v-model="ruleForm.time2" type="datetime" :picker-options='datePicker1' placeholder="选择日期时间" style="width: 100%;"></el-date-picker>
 			</el-form-item>
 			<el-form-item label="价格" prop="price">
 				<el-input v-model.number="ruleForm.price" clearable><span slot="append">元 / 小时</span></el-input>
@@ -50,7 +53,7 @@
 <script>
 	import data from '../../assets/data/data2.json'
   import { Toast } from 'mint-ui'
-  import {getFullFormatDate, generateID} from '../../assets/js/common.js'
+  import {getFullFormatDate, changeStrToDate, generateID} from '../../assets/js/common.js'
   var index = 0
   var index2 = 0
   var index3 = 0
@@ -74,6 +77,7 @@
   let street = __a[0]
 	export default {
     data() {
+      let THIS = this;
       return {
         // 操作类型（新增还是编辑）
         operateType: sessionStorage.getItem('operateType'),
@@ -120,6 +124,7 @@
           areaString: '请选择',
           streetString: '请选择',
           detailAddr:'',
+          carseatnum:'',
           // 记录开始和结束时间值
           time1:'',
           time2:'',
@@ -132,7 +137,12 @@
         },
         datePicker: { //时间控件维保日期时间限制
           disabledDate(time) {
-            return time.getTime() < Date.now() - 8.64e7 ;
+            //return time.getTime() < Date.now() - 8.64e7 ;
+          }
+        },
+        datePicker1: { //时间控件维保日期时间限制
+          disabledDate(time) {
+            //return time.getTime() < THIS.ruleForm.time1;
           }
         },
         // 校验规则
@@ -140,6 +150,9 @@
           detailAddr: [
             { required: true, message: '请填写详细地址', trigger: 'blur' },
             { min: 0, max: 1024, message: '长度在 0 到 1024 个字符', trigger: 'blur' }
+          ],
+          carseatnum: [
+            { required: true, message: '请填写车位编号', trigger: 'blur' },
           ],
           time1: [
             { required: true, message: '请选择日期时间', trigger: 'blur' }
@@ -197,7 +210,7 @@
       // 图片上传成功
       handleAvatarSuccess(res, file) {
         if (res.status == 'SUCCESS'){
-          this.ruleForm.imageUrl = res.imageUrl.replace(/\\/g,"/");;
+          this.ruleForm.imageUrl = res.imageUrl.replace(/\\/g,"/");
         }else{
           Toast(res.message);
         }
@@ -220,16 +233,18 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            if (this.ruleForm.time1>this.ruleForm.time2){
+              Toast("请正确选择时间范围");
+              return;
+            }
             let t1 = new Date(this.ruleForm.time1);
             let t2 = new Date(this.ruleForm.time2);
             this.ruleForm.totalcost = (parseInt(t2 - t1) / 1000 / 60 / 60) * Number(this.ruleForm.price);
             this.ruleForm.totalcost = parseFloat(this.ruleForm.totalcost.toFixed(2));
-            console.log(this.ruleForm.totalcost);
             this.ruleForm.startTime = getFullFormatDate(t1);
             this.ruleForm.endTime = getFullFormatDate(t2);
             delete this.ruleForm.time1;
             delete this.ruleForm.time2;
-            console.log(this.ruleForm);
             let api = this.operateType == 'add' ? '/api/pps/addParkInfo' : '/api/pps/editParkInfo';
             this.$axios.get(api,{params:this.ruleForm}).then((res)=>{
                 Toast(res.data.message);
@@ -259,16 +274,18 @@
         this.ruleForm.areaString = parkInfoData.parkcity;
         this.ruleForm.streetString = parkInfoData.parkstreet;
         this.ruleForm.detailAddr = parkInfoData.parkdetails;
-        this.ruleForm.time1 = parkInfoData.starttime;
-        this.ruleForm.time2 = parkInfoData.endtime;
+        this.ruleForm.carseatnum = parkInfoData.carseatnum;
+        this.ruleForm.time1 = new Date(changeStrToDate(parkInfoData.starttime));
+        this.ruleForm.time2 = new Date(changeStrToDate(parkInfoData.endtime));
         this.ruleForm.price = parkInfoData.price;
         this.imageUrl = require('../../../server/'+parkInfoData.imageurl);
+        this.ruleForm.imageUrl =parkInfoData.imageurl;
       }
     },
   }
 </script>
 
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 .demo-ruleForm {
 	margin-top: 45px;
   .address-style {
@@ -280,29 +297,6 @@
     width: 100%;
     height: 50%;
   }
-	.avatar-uploader .el-upload {
-		border-radius: 6px;
-		cursor: pointer;
-		position: relative;
-		overflow: hidden;
-	}
-	.avatar-uploader .el-upload:hover {
-		border-color: #409EFF;
-	}
-	.avatar-uploader-icon {
-		border: 1px dashed #d9d9d9;
-		font-size: 28px;
-		color: #8c939d;
-		width: 178px;
-		height: 178px;
-		line-height: 178px;
-		text-align: center;
-	}
-	.avatar {
-		width: 178px;
-		height: 178px;
-		display: block;
-	}
   .ruleform-btn {
     margin-left: -80px;
   }

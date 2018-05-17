@@ -18,7 +18,8 @@
         </div>
         <div class="text item">
           <el-col :span="10" >
-            <img src="../../../server/images/1.jpg" height="100px" width="100px" />
+            <img :src="require('../../../server/'+item.imageurl)" height="100px" width="100px" v-if="item.imageurl" />
+            <img src='../../assets/nopicture.png' height="100px" width="100px" v-else />
           </el-col>
           <el-col :span="14">
             <el-row>
@@ -59,7 +60,7 @@
           <hr />
           <el-row>
             <el-col :span="10" class="item-title">详细地址：</el-col>
-            <el-col :span="14" class="item-text" >{{item.parkdetails}}</el-col>
+            <el-col :span="14" class="item-text" >{{item.parkdetails}}{{item.carseatnum}}号车位</el-col>
           </el-row>
           <hr />
         </el-col>
@@ -89,7 +90,7 @@
 import Buttom from '@/components/bottom'
 import { Toast } from 'mint-ui'
 import { MessageBox } from 'mint-ui'
-import {getFullFormatDate} from '../../assets/js/common.js'
+import {changeStrToDate} from '../../assets/js/common.js'
 export default {
   data () {
     return {
@@ -164,13 +165,13 @@ export default {
     changeStatus(value){
       switch(value){
         case 1: return '待确认';break;
-        case 2: return '已预约';break;
+        case 2: return '已租用';break;
         default:;
       }
     },
     // 时间转换
     changeTime(time){
-      let tempTime = getFullFormatDate(new Date(time));
+      let tempTime = changeStrToDate(time);
       return tempTime;
     },
     // 取消预约
@@ -189,7 +190,7 @@ export default {
           throw err;
         });
         this.getReserveParkInfo();
-      });
+      }).catch(()=>{});
     },
     // 预约者信息弹窗
     dialogShow(item){

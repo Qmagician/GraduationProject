@@ -12,9 +12,9 @@
         <img slot="icon" src="../assets/reserved.png">
         我的预约
       </mt-tab-item>
-      <mt-tab-item id="mine">
+      <mt-tab-item id="personal">
         <img slot="icon" src="../assets/mine.png">
-        我的车位
+        个人中心
       </mt-tab-item>
     </mt-tabbar>
 </template>
@@ -33,7 +33,7 @@ export default {
           case 'home_page':sessionStorage.setItem("page","home_page");this.$router.push('/home');break;
           case 'find':sessionStorage.setItem("page","find");this.$router.push('/find');break;
           case 'reserved':sessionStorage.setItem("page","reserved");this.$router.push('/myreserve');break;
-          case 'mine':sessionStorage.setItem("page","mine");this.$router.push('/mine');break;
+          case 'personal':sessionStorage.setItem("page","personal");this.$router.push('/personal');break;
           default:;
         }
     }

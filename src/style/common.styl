@@ -9,6 +9,48 @@
 }
 
 //个人中心页面样式
+.avatar-uploader .el-upload {
+	border: 1px dashed #d9d9d9;
+	border-radius: 6px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
+
+
+.avatar-uploader .el-upload:hover {
+	border-color: #409EFF;
+}
+.avatar-uploader-icon {
+	font-size: 28px;
+	color: #8c939d;
+	width: 178px;
+	height: 178px;
+	line-height: 178px;
+	text-align: center;
+}
+.avatar {
+	width: 178px;
+	height: 178px;
+	display: block;
+}
+
+.personal-item{
+	.mint-cell{
+		min-height: 60px;
+	}
+	.mint-cell-wrapper{
+		padding:0px;
+	}
+	.mint-cell-title{
+		
+		line-height:45px;
+	}
+	.mint-cell-text{
+		float: left;
+	}
+}
+//我的车位页面样式
 .mine-style {
 	.el-dialog__body {
 		padding: 5px;
@@ -17,6 +59,11 @@
 .to-be-reserved {
 	.el-card__header {
 		background-color:#989393;
+	}
+}
+.expired {
+	.el-card__header {
+		background-color:#ef4f4f;
 	}
 }
 .to-be-confirmed {

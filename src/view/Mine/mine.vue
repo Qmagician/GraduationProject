@@ -1,6 +1,11 @@
 <template>
   <div class="mine-style">
-    <mt-header fixed title="个人车位租赁系统"></mt-header>
+    <mt-header fixed title="我的车位">
+      <router-link to="/personal" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+    </mt-header>
+    
     <div class="add-search-style">
       <el-row>
         <el-button size="small" type="primary" class="add-btn" @click="addPark">新增</el-button>
@@ -12,7 +17,7 @@
 
     <div class="clearfix" style="margin-bottom: 55px;"> 
 
-      <el-card class="body-card" :class="cardHeader(item.status)" v-for="(item,index) in parkInfo" :key="index">
+      <el-card class="body-card" :class="cardHeader(item)" v-for="(item,index) in parkInfo" :key="index">
         <div slot="header" style="height: 20px;">
           <span style="float: left;color:#f0f0f0;">{{item.parkcity}}</span>
         </div>
@@ -30,7 +35,10 @@
             <hr />
             <el-row>
               <el-col :span="10" class="item-title">状态：</el-col>
-              <el-col :span="7" class="item-status" style="background-color: #989393;" v-if="item.status=='0'">
+              <el-col :span="7" class="item-status" style="background-color: #ef4f4f;" v-if="item.status=='0' && expireIs(item)">
+                <div>已过期</div>
+              </el-col>
+              <el-col :span="7" class="item-status" style="background-color: #989393;" v-if="item.status=='0' && !expireIs(item)">
                 <div>{{changeStatus(item.status)}}</div>
               </el-col>
               <el-col :span="7" class="item-status" style="background-color: #ff8331;" v-if="item.status=='1'">
@@ -61,7 +69,7 @@
           <hr />
           <el-row>
             <el-col :span="10" class="item-title">详细地址：</el-col>
-            <el-col :span="14" class="item-text" >{{item.parkdetails}}</el-col>
+            <el-col :span="14" class="item-text" >{{item.parkdetails}}{{item.carseatnum}}号车位</el-col>
           </el-row>
           <hr />
         </el-col>
@@ -97,7 +105,7 @@
 import Buttom from '@/components/bottom'
 import { Toast } from 'mint-ui'
 import { MessageBox } from 'mint-ui'
-import {getFullFormatDate} from '../../assets/js/common.js'
+import {changeStrToDate, getFullFormatDate} from '../../assets/js/common.js'
 export default {
   data () {
     return {
@@ -109,10 +117,14 @@ export default {
     }
   },
   methods:{
-    cardHeader(status){
-      if (status == 0){
-        return 'to-be-reserved ';
-      }else if (status == 1){
+    cardHeader(item){
+      if (item.status == 0){
+        if (item.endtime < getFullFormatDate(new Date())){
+          return 'expired';
+        }else{
+          return 'to-be-reserved ';
+        }
+      }else if (item.status == 1){
         return 'to-be-confirmed';
       }else {
         return 'reserved';
@@ -149,18 +161,18 @@ export default {
     // 获取车位信息
     getUserParkInfo(){
       this.$axios.get('/api/pps/getUserPark',
-          {
-            params:{'module':'MINE','userid':sessionStorage.getItem('userId')}
-          }).then((res)=>{
-          if (res.data.status === 'FAIL'){
-            Toast(res.data.message);
-          }else{
-            this.parkInfo = res.data;
-          }
-        
-        }).catch((err)=>{
-          throw err;
-        });
+        {
+          params:{'module':'MINE','userid':sessionStorage.getItem('userId')}
+        }).then((res)=>{
+        if (res.data.status === 'FAIL'){
+          Toast(res.data.message);
+        }else{
+          this.parkInfo = res.data;
+        }
+      
+      }).catch((err)=>{
+        throw err;
+      });
 
     },
     // 车位地理位置
@@ -196,18 +208,26 @@ export default {
           throw err;
         });
     },
+    expireIs(item){
+      let nowDate = getFullFormatDate(new Date());
+      if (item.endtime < nowDate){
+        return true;
+      }else{
+        return false;
+      }
+    },
     // 状态转换
     changeStatus(value){
       switch(value){
         case 0: return '待预约';break;
         case 1: return '待确认';break;
-        case 2: return '已预约';break;
+        case 2: return '已出租';break;
         default:;
       }
     },
     // 时间转换
     changeTime(time){
-      let tempTime = getFullFormatDate(new Date(time));
+      let tempTime = changeStrToDate(time);
       return tempTime;
     },
     // 删除
@@ -222,7 +242,7 @@ export default {
           throw err;
         });
         this.getUserParkInfo();
-      });
+      }).catch(()=>{});
     },
     // 编辑
     editInfo(item){
@@ -276,7 +296,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='stylus' scoped >
+<style lang="stylus" scoped >
 .add-search-style {
   margin-top: 40px;
   margin-left: 3%; 
