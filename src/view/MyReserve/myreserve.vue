@@ -66,7 +66,8 @@
         </el-col>
         <div style="margin-top:10px;" v-if="item.status=='1' || item.status=='2'">
           <el-button size="small" class="operate-btn" type="primary" @click="dialogShow(item)">所属人</el-button>
-          <el-button size="small" class="operate-btn" type="primary" @click="cancelReserve(item)">取消</el-button>
+          <el-button v-if="item.status == '2'" size="small" class="operate-btn" type="primary" @click="cancelReserve(item)">取车</el-button>
+          <el-button v-else size="small" class="operate-btn" type="primary" @click="cancelReserve(item)">取消</el-button>
           <el-button size="small" class="operate-btn" type="primary" @click="searchMap(item)">位置</el-button>
         </div>
       </el-card>
@@ -176,13 +177,19 @@ export default {
     },
     // 取消预约
     cancelReserve(item){
-      MessageBox.confirm('确定取消该车位的预约吗?').then(action => {
+      let message = '确定取消该车位的预约吗?';
+      let resMessage = '已成功取消对该车位的预约！';
+      if (item.status == '2'){
+        message = '确定取消该车位的租用吗?'
+        resMessage = '已成功取车,计费结束！'
+      }
+      MessageBox.confirm(message).then(action => {
         this.$axios.get('/api/pps/rejectOrder',
         {
           params:{'num':item.num}
         }).then((res)=>{ 
           if (res.data.status === 'SUCCESS'){
-            Toast('已成功取消对该车位的预约！');
+            Toast(resMessage);
           }else{
             Toast(res.data.message);
           }

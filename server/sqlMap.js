@@ -8,7 +8,7 @@ var sqlMap = {
     queryByPassword: 'select * from user where password=?',
     queryAll: 'select * from user',
     queryRentNum:'select count(*) as num from parkinfo where subscriber=? and (endtime>=? and endtime <=?) and status=2',
-    queryReleaseNum:'select count(*) as num from parkinfo where userid=? and endtime <?',
+    queryReleaseNum:'select count(*) as num from parkinfo where userid=? and endtime <? and status=0',
     queryAllPark: 'select * from parkInfo left join user on parkinfo.userid=user.id where userid!=? and endtime>? and status=0',
     queryUserPark: 'select * from parkinfo left join user on parkinfo.subscriber=user.id where userid=? order by status desc',
     reservePark: 'update parkInfo set status=1,subscriber=? where num=?',

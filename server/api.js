@@ -88,6 +88,18 @@ module.exports = {
       })
     });
   },
+   // 获取今天到期租用车位数量
+   getExpireNum (req, res, next){
+    let userId = req.query.userId;
+    let nowDate = req.query.nowDate;
+    let sql = "select count(*) as num from parkinfo where subscriber='"+userId+"' and endtime like '"+nowDate+"%' and status=2"
+    pool.getConnection((err, connection) => {
+      connection.query(sql,(err, result) => {
+        jsonWrite(res, result);
+        connection.release();
+      })
+    })
+  },
   // 获取将要到期租用车位数量
   getRentNum(req, res, next){
     let userId = req.query.userId;
@@ -332,8 +344,10 @@ module.exports = {
     let sql = '';
     if (type == 'IMAGE'){
       sql = "update user set headimg='"+value+"' where id='"+userId+"'";
+    }else if(type == 'BALANCE'){
+      sql = "update user set balance="+value+" where id='"+userId+"'";
     }else{
-      sql = "update user set banlance="+value+" where id='"+userId+"'";
+      sql = "update user set phone="+value+" where id='"+userId+"'"
     }
     pool.getConnection((err, connection) => {
       connection.query(sql,(err, result) => {
@@ -345,7 +359,7 @@ module.exports = {
         }else{
           res.json({
             status: 'SUCCESS',
-            message: '更新成功!'
+            message: '操作成功!'
           });
         }
         connection.release();

@@ -56,6 +56,10 @@ router.get('/pps/login', function(req, res, next) {
 router.get('/pps/register', function(req, res, next) {
   api.register(req, res, next);
 })
+// 获取今天到期租用车位数量
+router.get('/pps/getExpireNum', function(req, res, next) {
+  api.getExpireNum(req, res, next);
+})
 // 获取将要到期租用车位数量
 router.get('/pps/getRentNum', function(req, res, next) {
   api.getRentNum(req, res, next);

@@ -52,7 +52,7 @@
 		          </el-row>
 		          <hr style="border : 0.5px dashed gray;"/>
 		          <div style="margin-top:10px;">
-			          <el-button size="small" class="operate-btn" type="primary" @click="dialogVisible = true">预约</el-button>
+			          <el-button size="small" class="operate-btn" type="primary" @click="reservePark">预约</el-button>
 			          <el-button size="small" class="operate-btn" type="primary" @click="phoneCall">电话</el-button>
 			          <el-button size="small" class="operate-btn" type="primary" @click="searchMap">位置</el-button>
 			        </div>
@@ -71,19 +71,33 @@
       <el-button size="small" type="primary" @click="submitReserve">确定</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="充值" :visible.sync="rechargeIsShow" width="70%" >
+      <div>
+        <span>请输入金额：</span>
+        <el-input style="width: 100px;" v-model="meney" :maxlength='4' clearable></el-input>
+        <span>元</span>
+      </div>
+      <span slot="footer" class="dialog-footer">
+      <el-button size="small" @click="rechargeIsShow = false">取消</el-button>
+      <el-button type="primary" size="small" @click="recharge">确定</el-button>
+      </span>
+    </el-dialog>
 	</div>
 </template>
 
 <script>
 import {changeStrToDate} from '../../assets/js/common.js'
-import { Toast } from 'mint-ui'
+import { Toast, MessageBox } from 'mint-ui'
 export default {
   data() {
     return {
+      userInfo:{},
       parkDetails:{
         imageurl:'images/nopicture.png',
       },
       dialogVisible:false,
+      meney:0,
+      rechargeIsShow:false,
     };
   },
   methods: {
@@ -96,6 +110,37 @@ export default {
     searchMap(){
     	sessionStorage.setItem('searchValue',this.parkDetails.parkcity+this.parkDetails.parkstreet+this.parkDetails.parkdetails);
     	this.$router.push({path:'/searchmap',query: {perPage: '/details'}});
+    },
+    // 判断金额是否足够
+    reservePark(){
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfoData'));
+      if (this.userInfo.balance < this.parkDetails.totalcost){
+        MessageBox.confirm("到期共需"+this.parkDetails.totalcost+"元，现余额（"+this.userInfo.balance+"元）不足，是否马上充值？").then(action => {
+        this.rechargeIsShow = true;
+      }).catch(()=>{});
+      }else{
+        this.dialogVisible = true;
+      }
+    },
+    // 充值
+    recharge(){
+      let updateValue = parseInt(this.meney)+parseInt(this.userInfo.balance);
+      this.rechargeIsShow = false;
+      if (this.updateValue > 10000){
+        MessageBox('提示', '抱歉！本系统只可预存 10000 元');
+        return;
+      }
+      this.$axios.get('/api/pps/updateUserInfo',{
+        params:{'updateType':'BALANCE','updateValue':updateValue,'userId':sessionStorage.getItem('userId')}
+      }).then((res)=>{
+        if (res.data.status == 'SUCCESS'){
+          this.userInfo.balance = updateValue;
+          sessionStorage.setItem('userInfoData',JSON.stringify(this.userInfo));
+        }
+        Toast(res.data.message);
+      }).catch((err)=>{
+        throw err;
+      });
     },
     // 预约车位
     submitReserve(){

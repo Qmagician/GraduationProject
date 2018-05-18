@@ -1,7 +1,7 @@
 <template>
   <div class="home-style">
     <mt-header fixed title="个人车位租赁系统"></mt-header>
-    <div style="float: left;margin-top: 40px;position: absolute;z-index: 1;" v-if="rentNum||release">
+    <div style="float: left;margin-top: 40px;position: absolute;z-index: 1;" v-if="expireNum||rentNum||release||reverse">
       <img src="../assets/message.png" height="28" width="28" @click="dialogVisible = true">
     </div>
     <div id="container"></div>
@@ -9,20 +9,24 @@
       <input type="text" id="keyword" name="keyword" :value="tip"/>
     </div>
     <!--消息提示框-->
-    <el-dialog title="消息提醒" :visible.sync="dialogVisible" width="70%" >
+    <el-dialog title="消息提醒" :visible.sync="dialogVisible" width="85%" >
+      <div v-if="expireNum">
+        您有 
+        <span style="font-weight: bold;color: #ef4f4f;" >{{expireNum}}</span> 个租用的车位今天到期，避免产生额外费用,请及时处理!
+      </div>
       <div v-if="rentNum">
         您有 
-        <span style="font-weight: bold;color: orange;" >{{rentNum}}</span> 个租用的车位明天到期，请及时处理
+        <span style="font-weight: bold;color: orange;" >{{rentNum}}</span> 个租用的车位明天到期，请及时处理!
       </div>
       <div v-if="release">
         您有 
-        <span style="font-weight: bold;color: orange;">{{release}}</span> 
-        个发布的车位已过期，请及时处理
+        <span style="font-weight: bold;color: #ef4f4f;">{{release}}</span> 
+        个发布的车位已过期，请及时处理!
       </div>
       <div v-if="reverse">
         您有 
         <span style="font-weight: bold;color: orange;">{{reverse}}</span> 
-        个被预约的车位待确认，请及时处理
+        个被预约的车位待确认，请及时处理!
       </div>
       <span slot="footer" class="dialog-footer">
       <el-button size="small" @click="dialogVisible = false">关闭</el-button>
@@ -37,7 +41,7 @@
 import AMap from 'AMap'
 import { Toast, MessageBox  } from 'mint-ui'
 import Buttom from '@/components/bottom'
-import {getFullFormatDate} from '../assets/js/common.js'
+import {getFullFormatDate,getyyyyMMddNowDate} from '../assets/js/common.js'
 
 export default {
   name: 'home',
@@ -45,6 +49,7 @@ export default {
     return {
       tip:'请输入关键字：(选定后搜索)',
       dialogVisible:false,
+      expireNum:0,
       rentNum:0,
       release:0,
       reverse:0,
@@ -105,26 +110,46 @@ export default {
       });
     },
     init(){
+      this.getExpireNum();
       this.getRentNum();
       this.getReleaseNum();
       this.getToBeReserve();
     },
     // 判断是否显示消息提醒框
     judgeTipShow(){
-      if ((this.rentNum||this.release||this.reverse) && sessionStorage.getItem('showTimes') === '0'){
+      if ((this.rentNum||this.release||this.reverse||this.expireNum) && sessionStorage.getItem('showTimes') === '0'){
         this.dialogVisible = true;
         sessionStorage.setItem('showTimes', '1');
       }
     },
     // 跳转到对应的处理页面
     goToPage(){
-      if (this.rentNum){
+      if (this.rentNum||this.expireNum){
         sessionStorage.setItem("page","reserved");
         this.$router.push('./myreserve');
       }else{
         sessionStorage.setItem("page","personal");
         this.$router.push('./mine');
       }
+    },
+    // 获取今天到期的租用车位
+    getExpireNum(){
+      this.$axios.get('/api/pps/getExpireNum',
+        {
+          params:{
+            'userId':sessionStorage.getItem('userId'),
+            'nowDate':getyyyyMMddNowDate(),
+          }
+        }).then((res)=>{
+        if (res.data.status === 'FAIL'){
+          Toast(res.data.message);
+        }else{
+          this.expireNum = res.data[0].num;
+          this.judgeTipShow();
+        }
+      }).catch((err)=>{
+        throw err;
+      });
     },
     // 获取将要到期的租用车位
     getRentNum(){
