@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import {changeStrToDate} from '../../assets/js/common.js'
+import {changeStrToDate, getFullFormatDate} from '../../assets/js/common.js'
 import { Toast, MessageBox } from 'mint-ui'
 export default {
   data() {
@@ -113,7 +113,7 @@ export default {
     },
     // 判断金额是否足够
     reservePark(){
-      this.userInfo = JSON.parse(sessionStorage.getItem('userInfoData'));
+      
       if (this.userInfo.balance < this.parkDetails.totalcost){
         MessageBox.confirm("到期共需"+this.parkDetails.totalcost+"元，现余额（"+this.userInfo.balance+"元）不足，是否马上充值？").then(action => {
         this.rechargeIsShow = true;
@@ -142,19 +142,41 @@ export default {
         throw err;
       });
     },
+    // 插入交易记录
+    addTradeRecord(){
+      let tradeData = {
+        'subscriberId':sessionStorage.getItem('userId'),
+        'userId':this.parkDetails.userid,
+        'parkNum':this.parkDetails.num,
+        'price':this.parkDetails.price,
+        'totalCost':this.parkDetails.totalcost,
+        'startTime':getFullFormatDate(new Date()),
+      };
+      this.$axios.get('/api/pps/addTradeRecord',{params:tradeData}).then((res)=>{
+        //Toast(res.data.message);
+      }).catch((err)=>{
+        throw err;
+      });
+    },
     // 预约车位
     submitReserve(){
+      window.location.href="sms:"+this.parkDetails.phone+"?body=<个人车位租赁系统>提示：您有一个车位出租需确认，请及时处理！";
     	this.$axios.get('/api/pps/reservePark',
     	{
     		params:{num:this.parkDetails.num,userid:sessionStorage.getItem('userId')}
     	}).then((res)=>{
+        if (res.data.status == 'SUCCESS'){
+          this.addTradeRecord();
+          this.userInfo.balance = parseInt(this.userInfo.balance)-parseInt(this.parkDetails.totalcost);
+          sessionStorage.setItem('userInfoData',JSON.stringify(this.userInfo));
+          this.dialogVisible = false;
+          sessionStorage.setItem("page","reserved");
+          this.$router.push('/myreserve');
+        }
     		Toast(res.data.message);
     	}).catch((err)=>{
     		throw err;
     	});
-    	this.dialogVisible = false;
-    	sessionStorage.setItem("page","reserved");
-    	this.$router.push('/myreserve');
     },
     // 打电话
     phoneCall(){
@@ -163,6 +185,7 @@ export default {
   },
   mounted() {
   	this.parkDetails = JSON.parse(sessionStorage.getItem('parkDetailsData'));
+    this.userInfo = JSON.parse(sessionStorage.getItem('userInfoData'));
   },
 }
 </script>

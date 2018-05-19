@@ -232,6 +232,28 @@ module.exports = {
       })
     }) 
   },
+  // 增加交易记录
+  addTradeRecord(req, res, next) {
+    let params = req.query;
+    let subscriberId = params.subscriberId;
+    let userId = params.userId;
+    let parkNum = params.parkNum;
+    let price = params.price;
+    let totalCost = params.totalCost;
+    let startTime = params.startTime;
+    pool.getConnection((err, connection) => {
+      connection.query(sqlMap.pps.insertRecord,[subscriberId,userId,parkNum,price,totalCost,startTime],(err, result) => {
+        if (err){
+          res.json({
+            status: 'FAIL',
+            message: '服务器错误,请稍后再试!'
+          });
+        }else{
+        }
+        connection.release();
+      })
+    });
+  },
   // 删除当前用户车位信息
   deleteParkInfo(req, res, next) {
     let num = req.query.num;
@@ -286,9 +308,14 @@ module.exports = {
       })
     });
   },
+  // 拒绝预约，不扣钱
+  rejectReserve(num){
+    console.log(num);
+  },
   // 拒绝预约
   rejectOrder(req, res, next) {
     let num = req.query.num;
+    this.rejectReserve(num);
     pool.getConnection((err, connection) => {
       connection.query(sqlMap.pps.rejectOrder,[num],(err, result) => {
         if (err){

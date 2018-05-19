@@ -88,6 +88,10 @@ router.get('/pps/searchUserPark', function(req, res, next) {
 router.get('/pps/reservePark', function(req, res, next) {
   api.reservePark(req, res, next);
 })
+// 增加交易记录
+router.get('/pps/addTradeRecord', function(req, res, next) {
+  api.addTradeRecord(req, res, next);
+})
 // 删除
 router.get('/pps/deleteParkInfo', function(req, res, next) {
   api.deleteParkInfo(req, res, next);

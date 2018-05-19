@@ -2,7 +2,7 @@
   <div>
     <mt-header fixed title="个人车位租赁系统"></mt-header>
     <div class="headImage" style="margin-top: 45px;">
-      <el-upload class="avatar-uploader" multiple name="headImage" action="http://192.168.6.228:8888/api/pps/uploadHeadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :data="userInfo">
+      <el-upload class="avatar-uploader" multiple name="headImage" action="http://10.15.135.26:8888/api/pps/uploadHeadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :data="userInfo">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>

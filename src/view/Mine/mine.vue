@@ -268,6 +268,9 @@ export default {
       {
         params:{'num':item.num}
       }).then((res)=>{
+        /*if (res.data.status == 'SUCCESS'){
+          item.balance = parseInt(item.balance)-parseInt(item.totalcost);
+        }*/
         Toast(res.data.message);
       }).catch((err)=>{
         throw err;

@@ -12,6 +12,7 @@ var sqlMap = {
     queryAllPark: 'select * from parkInfo left join user on parkinfo.userid=user.id where userid!=? and endtime>? and status=0',
     queryUserPark: 'select * from parkinfo left join user on parkinfo.subscriber=user.id where userid=? order by status desc',
     reservePark: 'update parkInfo set status=1,subscriber=? where num=?',
+    insertRecord:"insert into trade(subscriberid,userid,parknum,price,totalcost,starttime) values(?,?,?,?,?,?)",
     insertPark: 'insert into parkInfo(num,userid,parkcity,parkstreet,parkdetails,carseatnum,starttime,endtime,price,totalcost,imageurl,status) values(?,?,?,?,?,?,?,?,?,?,?,?)',
     updatePark: 'update parkInfo set parkcity=?,parkstreet=?,parkdetails=?,carseatnum=?,starttime=?,endtime=?,price=?,imageurl=?,status=? where num=?',
     deleteInfo:'delete from parkInfo where num=?',

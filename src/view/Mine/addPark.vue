@@ -1,11 +1,11 @@
 <template>
-	<div class="add-parkinfo">
-		<mt-header fixed :title="parkTitle">
-			<router-link to="/mine" slot="left">
-				<mt-button icon="back">返回</mt-button>
-			</router-link>
-		</mt-header>
-		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm" style="margin-left: 3%;width: 94%;">
+  <div class="add-parkinfo">
+    <mt-header fixed :title="parkTitle">
+      <router-link to="/mine" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+    </mt-header>
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm" style="margin-left: 3%;width: 94%;">
       
       <div class="address-style">
         <label>车位地址</label>
@@ -19,39 +19,39 @@
         </mt-popup>
       </div>
 
-			<el-form-item label="详细地址" prop="detailAddr">
-				<el-input type="textarea" v-model="ruleForm.detailAddr"></el-input>
-			</el-form-item>
+      <el-form-item label="详细地址" prop="detailAddr">
+        <el-input type="textarea" v-model="ruleForm.detailAddr"></el-input>
+      </el-form-item>
       <el-form-item label="车位编号" prop="carseatnum">
         <el-input v-model.number="ruleForm.carseatnum" clearable><span slot="append">号车位</span></el-input>
       </el-form-item>
-			<el-form-item label="开始时间" prop="time1">
-				<el-date-picker :editable='false' v-model="ruleForm.time1" type="datetime" :picker-options='datePicker' placeholder="选择日期时间" style="width: 100%;" ></el-date-picker>
-			</el-form-item>
-			<el-form-item label="结束时间" prop="time2">
-				<el-date-picker :editable='false' v-model="ruleForm.time2" type="datetime" :picker-options='datePicker1' placeholder="选择日期时间" style="width: 100%;"></el-date-picker>
-			</el-form-item>
-			<el-form-item label="价格" prop="price">
-				<el-input v-model.number="ruleForm.price" clearable><span slot="append">元 / 小时</span></el-input>
-			</el-form-item>
-			<el-form-item label="车位照片">
-				<el-upload class="avatar-uploader" multiple name="image" action="http://192.168.6.228:8888/api/pps/uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :data="ruleForm" :before-upload="beforeAvatarUpload">
-  			<img v-if="imageUrl" :src="imageUrl" class="avatar">
-  			<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-				</el-upload>
-			</el-form-item>
-			<el-form-item>
-				<div class="ruleform-btn">
-					<el-button @click="resetForm('ruleForm')">重置</el-button>
+      <el-form-item label="开始时间" prop="time1">
+        <el-date-picker :editable='false' v-model="ruleForm.time1" type="datetime" :picker-options='datePicker' placeholder="选择日期时间" style="width: 100%;" ></el-date-picker>
+      </el-form-item>
+      <el-form-item label="结束时间" prop="time2">
+        <el-date-picker :editable='false' v-model="ruleForm.time2" type="datetime" :picker-options='datePicker1' placeholder="选择日期时间" style="width: 100%;"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="价格" prop="price">
+        <el-input v-model.number="ruleForm.price" clearable><span slot="append">元 / 小时</span></el-input>
+      </el-form-item>
+      <el-form-item label="车位照片">
+        <el-upload class="avatar-uploader" multiple name="image" action="http://10.15.135.26:8888/api/pps/uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :data="ruleForm" :before-upload="beforeAvatarUpload">
+        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item>
+        <div class="ruleform-btn">
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
           <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
-				</div>
-			</el-form-item>
-		</el-form>
-	</div>
+        </div>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>
-	import data from '../../assets/data/data2.json'
+  import data from '../../assets/data/data2.json'
   import { Toast } from 'mint-ui'
   import {getFullFormatDate, changeStrToDate, generateID} from '../../assets/js/common.js'
   var index = 0
@@ -75,7 +75,7 @@
   // 初始化街
   let __a = Object.values(__d[0])
   let street = __a[0]
-	export default {
+  export default {
     data() {
       let THIS = this;
       return {
@@ -137,12 +137,12 @@
         },
         datePicker: { //时间控件维保日期时间限制
           disabledDate(time) {
-            //return time.getTime() < Date.now() - 8.64e7 ;
+            return time.getTime() < Date.now() - 8.64e7 ;
           }
         },
         datePicker1: { //时间控件维保日期时间限制
           disabledDate(time) {
-            //return time.getTime() < THIS.ruleForm.time1;
+            return time.getTime() < THIS.ruleForm.time1;
           }
         },
         // 校验规则
@@ -220,12 +220,11 @@
       beforeAvatarUpload(file) {
         //const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
-
         /*if (!isJPG) {
           this.$message.error('上传头像图片只能是 JPG 格式!');
         }*/
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          this.$message.error('上传车位图片大小不能超过 2MB!');
         }
         return isLt2M;
         //return isJPG && isLt2M;
@@ -254,7 +253,6 @@
             }).catch((err)=>{
               throw err;
             });
-
           } else {
             console.log('error submit!!');
             return false;
@@ -287,7 +285,7 @@
 
 <style lang="stylus" scoped>
 .demo-ruleForm {
-	margin-top: 45px;
+  margin-top: 45px;
   .address-style {
     border:1px solid #67c23a; 
     border-radius: 5px; 
